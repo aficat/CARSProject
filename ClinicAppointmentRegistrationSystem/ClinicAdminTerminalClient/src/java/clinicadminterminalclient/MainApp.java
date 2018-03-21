@@ -92,7 +92,7 @@ public class MainApp {
         
         while(true)
         {
-            System.out.println("*** Clinic Registration System (CRS) ***\n");    
+                System.out.println("*** CARS :: Main ***\n");    
             System.out.println("You are login as " + currentStaffEntity.getFirstName() + " " + currentStaffEntity.getLastName() + "\n");
             System.out.println("1: Registration Operation");
             System.out.println("2: Appointment Operation");
@@ -100,7 +100,7 @@ public class MainApp {
             System.out.println("4: Logout\n");
             response = 0;
             
-            while(response < 1 || response > 3) {
+            while(response < 1 || response > 4) {
                 System.out.print("> ");
 
                 response = scanner.nextInt();
@@ -108,11 +108,15 @@ public class MainApp {
                 if(response == 1) {
                     registrationModule.menuRegistration();
                 } else if(response == 2) {
+                    registrationModule.menuAppointment();
+                } else if(response == 3) {
+                    registrationModule.menuAdministration();
+                } else if(response == 4) {
                     break;
                 } else {
                     System.out.println("Invalid option, please try again!\n");                
                 }
-            } if(response == 2) {
+            } if(response == 4) {
                 break;
             }
         }

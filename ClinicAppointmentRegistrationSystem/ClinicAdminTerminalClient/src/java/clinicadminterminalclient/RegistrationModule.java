@@ -40,13 +40,14 @@ public class RegistrationModule {
         Integer response = 0;
         
         while(true) {
-            System.out.println("*** CRS :: Registration Operation ***\n");
-            System.out.println("1: Register Patient");
-            System.out.println("2: Get Queue Number");
-            System.out.println("3: Back\n");
+            System.out.println("*** CARS :: Registration Operation ***\n");
+            System.out.println("1: Register New Patient");
+            System.out.println("2: Register Walk-In Consultation");
+            System.out.println("3: Register Consultation By Appointment");
+            System.out.println("4: Back\n");
             response = 0;
             
-            while(response < 1 || response > 3) {
+            while(response < 1 || response > 4) {
                 System.out.print("> ");
 
                 response = scanner.nextInt();
@@ -54,15 +55,17 @@ public class RegistrationModule {
                 if(response == 1) {
                     registerPatient();
                 } else if(response == 2) {
-                    getConsultation();
+                    consultWalkIn();
                 } else if(response == 3) {
+                    consultAppointment();
+                } else if(response == 4) {
                     break;
                 } else {
                     System.out.println("Invalid option, please try again!\n");                
                 }
             }
             
-            if(response == 3)
+            if(response == 4)
             {
                 break;
             }
@@ -99,23 +102,15 @@ public class RegistrationModule {
         
     }
     
-    private void getConsultation() {
-        Scanner scanner = new Scanner(System.in);        
-        String identityNumber = "";
-        Long doctorId;
-        
-        // System.out.println(doctorEntities.size());
-        //System.out.println(queue);
-        
-        System.out.println("*** CRS :: Registration Operation :: Get Queue Number ***\n");
-        System.out.print("Enter Doctor Id> ");
-        doctorId = scanner.nextLong();
-        scanner.nextLine();
-        System.out.print("Enter Patient Identity Number> ");
-        identityNumber = scanner.nextLine().trim();
-        
-        queue++;
-        //System.out.println(currentPatient.getFirstName() + " " + currentPatient.getLastName() +" is going to see " + currentDoctor.getFirstName() + " " + currentDoctor.getLastName() + ". Queue Number is: " + queue + "\n");
-
+    private void consultWalkIn() {
+    }
+    
+    private void consultAppointment() {
+    }
+    
+    public void menuAppointment() {
+    }
+    
+    public void menuAdministration() {
     }
 }
