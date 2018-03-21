@@ -2,6 +2,7 @@
 package clinicadminterminalclient;
 
 import ejb.session.stateless.StaffEntityControllerRemote;
+import ejb.session.stateful.RegistrationControllerRemote;
 import entity.StaffEntity;
 import java.util.Scanner;
 import util.exception.InvalidLoginException;
@@ -9,7 +10,8 @@ import util.exception.InvalidLoginException;
 public class MainApp {
 
     private StaffEntityControllerRemote staffEntityControllerRemote;
-
+    private RegistrationControllerRemote registrationControllerRemote;
+    private RegistrationModule registrationModule;
     private StaffEntity currentStaffEntity;
 
     public MainApp() {
@@ -39,7 +41,8 @@ public class MainApp {
 
                     try {
                         doLogin();
-
+                        registrationModule = new RegistrationModule(registrationControllerRemote);
+                        menuMain();
                     } 
                     catch (InvalidLoginException ex) {
                     }
@@ -81,6 +84,37 @@ public class MainApp {
          else
         {
             System.out.println("Invalid login credential!");
+        }
+    }
+    private void menuMain() {
+        Scanner scanner = new Scanner(System.in);
+        Integer response = 0;
+        
+        while(true)
+        {
+            System.out.println("*** Clinic Registration System (CRS) ***\n");    
+            System.out.println("You are login as " + currentStaffEntity.getFirstName() + " " + currentStaffEntity.getLastName() + "\n");
+            System.out.println("1: Registration Operation");
+            System.out.println("2: Appointment Operation");
+            System.out.println("3: Administration Operation");
+            System.out.println("4: Logout\n");
+            response = 0;
+            
+            while(response < 1 || response > 3) {
+                System.out.print("> ");
+
+                response = scanner.nextInt();
+
+                if(response == 1) {
+                    registrationModule.menuRegistration();
+                } else if(response == 2) {
+                    break;
+                } else {
+                    System.out.println("Invalid option, please try again!\n");                
+                }
+            } if(response == 2) {
+                break;
+            }
         }
     }
 }
