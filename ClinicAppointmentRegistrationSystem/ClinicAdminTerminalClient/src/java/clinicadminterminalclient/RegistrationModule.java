@@ -7,6 +7,8 @@ package clinicadminterminalclient;
 
 import ejb.session.stateful.RegistrationControllerRemote;
 import entity.StaffEntity;
+import entity.PatientEntity;
+import entity.DoctorEntity;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,6 +22,8 @@ public class RegistrationModule {
 
     private RegistrationControllerRemote registrationControllerRemote;
     private StaffEntity currentStaffEntity;
+    private PatientEntity currentPatientEntity;
+    private DoctorEntity currentDoctorEntity;
     private int queue = 0;
     
     public RegistrationModule(RegistrationControllerRemote registrationControllerRemote) {
@@ -77,10 +81,12 @@ public class RegistrationModule {
     {
         Scanner scanner = new Scanner(System.in);
         
-        // System.out.println(patientEntities.size());
+        System.out.println("*** CARS :: Registration Operation :: Register Patient ***\n");
         
-        System.out.println("*** CRS :: Registration Operation :: Register Patient ***\n");
-        
+        System.out.print("Enter Identity Number> ");
+        String identityNumber = scanner.nextLine().trim();
+        System.out.print("Enter Security Code> ");
+        String securityCode = scanner.nextLine().trim();
         System.out.print("Enter First Name> ");
         String firstName = scanner.nextLine().trim();
         System.out.print("Enter Last Name> ");
@@ -90,27 +96,64 @@ public class RegistrationModule {
         System.out.print("Enter Age> ");
         int age = scanner.nextInt();
         scanner.nextLine();
-        System.out.print("Enter Identity Number> ");
-        String identityNumber = scanner.nextLine().trim();
         System.out.print("Enter Phone> ");
         String phone = scanner.nextLine().trim();
         System.out.print("Enter Address> ");
         String address = scanner.nextLine().trim();
         
-        // patientEntities.add(new PatientEntity((long) (patientEntities.size()+1), firstName, lastName, gender, age, identityNumber, phone, address));
+        // if no other patient has same IDENTITY NUMBER, add patient
+        // check last id then add to next patient
         System.out.println("Patient has been registered successfully!\n");
         
     }
     
     private void consultWalkIn() {
+        
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("*** CARS :: Registration Operation :: Register Walk-In Consultation ***\n");
+        System.out.println("Doctor:\n");
+        // list all doctor in database (id, firstname lastname)
+        System.out.println("Availability:\n");
+        // list all slots available to book
+        
+        System.out.print("Enter Doctor Id> ");
+        Long doctorId = scanner.nextLong();
+        scanner.nextLine();
+        System.out.print("Enter Patient Identity Number> ");
+        String identityNumber = scanner.nextLine().trim();
+        
+        // search doctor
+        // search patient
+        
+        System.out.println("patientfirstname lastname is going to see doctorfirstname lastname at time. Queue Number is: number.\n");
     }
     
     private void consultAppointment() {
+        
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("*** CARS :: Registration Operation :: Register Consultation By Appointment ***\n");
+        
+        System.out.print("Enter Patient Identity Number> ");
+        String identityNumber = scanner.nextLine().trim();
+        // search appointment set by patient
+
+        System.out.println("Appointments:\n");
+        // list appointment
+        
+        System.out.print("Enter Appointment Id> ");
+        int appointmentId = scanner.nextInt();
+        
+        System.out.println("patientfirstname lastname is going to see doctorfirstname lastname at time. Queue Number is: number.\n");
     }
     
     public void menuAppointment() {
+        
     }
     
     public void menuAdministration() {
+        
+        
     }
 }
