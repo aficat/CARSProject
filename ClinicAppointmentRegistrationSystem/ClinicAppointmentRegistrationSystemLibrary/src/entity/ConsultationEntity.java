@@ -6,6 +6,9 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  *
@@ -13,22 +16,25 @@ import java.io.Serializable;
  * A0160361R
  */
 
+@Entity
 public class ConsultationEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     
+    @Id
+    @Column(unique = true, nullable = false)
     private String identityNumber;
+    @Column(nullable = false)
     private Long doctorId;
-    private Integer queueNumber;
     
     public ConsultationEntity() {
     }
 
-    public ConsultationEntity(String identityNumber, Long doctorId, Integer queueNumber) {
+    public ConsultationEntity(String identityNumber, Long doctorId) {
         this();
 
         this.identityNumber = identityNumber;
         this.doctorId = doctorId;
-        this.queueNumber = queueNumber;
+       
     }
 
     public String getIdentityNumber() {
@@ -46,15 +52,4 @@ public class ConsultationEntity implements Serializable {
     public void setDoctorId(Long doctorId) {
         this.doctorId = doctorId;
     }
-
-    public Integer getQueueNumber() {
-        return queueNumber;
-    }
-
-    public void setQueueNumber(Integer queueNumber) {
-        this.queueNumber = queueNumber;
-    }
-    
-    // return patient name
-    // return doctor name
 }

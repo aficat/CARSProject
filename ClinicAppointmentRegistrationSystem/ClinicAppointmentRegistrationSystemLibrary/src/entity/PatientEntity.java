@@ -22,32 +22,36 @@ public class PatientEntity implements Serializable{
     private static final long serialVersionUID = 1L;
     
     @Id
+    @Column(unique = true, nullable = false)
+    private String identityNumber;
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique = true)
     private Long patientId;
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
     private String lastName;
     private String gender;
+    private String securityCode;
     private Integer age;
     private String phone;
     private String address;    
     
-    @Column(unique = true)
-    private String identityNumber;
-    
     public PatientEntity(){
     }
     
-    public PatientEntity(String firstName, String lastName, String identityNumber) {
+    public PatientEntity(String firstName, String lastName, String identityNumber, String securityCode) {
         this();
         
         this.firstName = firstName;
         this.lastName = lastName;
         this.identityNumber = identityNumber;
+        this.securityCode = securityCode;
     }
 
     
     
-    public PatientEntity(Long patientId, String firstName, String lastName, String gender, Integer age, String identityNumber, String phone, String address) 
+    public PatientEntity(Long patientId, String firstName, String lastName, String gender, String securityCode, Integer age, String identityNumber, String phone, String address) 
     {
         this();
         
@@ -55,6 +59,7 @@ public class PatientEntity implements Serializable{
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
+        this.securityCode = securityCode;
         this.age = age;
         this.identityNumber = identityNumber;
         this.phone = phone;
@@ -132,6 +137,14 @@ public class PatientEntity implements Serializable{
     public void setGender(String gender) {
         this.gender = gender;
     }
+    
+    public String getSecurityCode() {
+        return securityCode;        
+    }
+
+    public void setSecurityCode(String ecurityCode) {
+        this.securityCode = ecurityCode;
+    }
 
     public Integer getAge() {
         return age;
@@ -145,7 +158,7 @@ public class PatientEntity implements Serializable{
         return identityNumber;
     }
 
-    public void setIdentityNumber(String age) {
+    public void setIdentityNumber(String identityNumber) {
         this.identityNumber = identityNumber;
     }
     

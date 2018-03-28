@@ -1,8 +1,10 @@
 
 package clinicadminterminalclient;
 
-import ejb.session.stateless.StaffEntityControllerRemote;
 import ejb.session.stateful.RegistrationControllerRemote;
+import ejb.session.stateless.DoctorEntityControllerRemote;
+import ejb.session.stateless.PatientEntityControllerRemote;
+import ejb.session.stateless.StaffEntityControllerRemote;
 import entity.StaffEntity;
 import java.util.Scanner;
 import util.exception.InvalidLoginException;
@@ -10,15 +12,21 @@ import util.exception.InvalidLoginException;
 public class MainApp {
 
     private StaffEntityControllerRemote staffEntityControllerRemote;
+    private DoctorEntityControllerRemote doctorEntityControllerRemote;
+    private PatientEntityControllerRemote patientEntityControllerRemote;
     private RegistrationControllerRemote registrationControllerRemote;
-    private RegistrationModule registrationModule;
+
     private StaffEntity currentStaffEntity;
+    private RegistrationModule registrationModule;
 
     public MainApp() {
     }
 
-    MainApp(StaffEntityControllerRemote staffEntityControllerRemote) {
+    MainApp(StaffEntityControllerRemote staffEntityControllerRemote, DoctorEntityControllerRemote doctorEntityControllerRemote, PatientEntityControllerRemote patientEntityControllerRemote, RegistrationControllerRemote registrationControllerRemote) {
         this.staffEntityControllerRemote = staffEntityControllerRemote;
+        this.doctorEntityControllerRemote = doctorEntityControllerRemote;
+        this.patientEntityControllerRemote = patientEntityControllerRemote;
+        this.registrationControllerRemote = registrationControllerRemote;
     }
 
     public void runApp() {
@@ -27,7 +35,7 @@ public class MainApp {
         Integer response = 0;
 
         while (true) {
-            System.out.println("*** Welcome to Clinic Appointment Registration System ***\n");
+            System.out.println("*** Welcome to Clinic Appointment Registration System (CARS) ***\n");
             System.out.println("1: Login");
             System.out.println("2: Exit\n");
             response = 0;
@@ -41,7 +49,7 @@ public class MainApp {
 
                     try {
                         doLogin();
-                        registrationModule = new RegistrationModule(registrationControllerRemote);
+                        registrationModule = new RegistrationModule(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote);
                         menuMain();
                     } 
                     catch (InvalidLoginException ex) {
@@ -75,7 +83,7 @@ public class MainApp {
                 currentStaffEntity = staffEntityControllerRemote.staffLogin(username, password);
                 System.out.println("Login successful!\n");
             } catch (InvalidLoginException ex) {
-                System.out.println("Invalid login credential: " + ex.getMessage() + "\n");
+                System.out.println("Invalid login: " + ex.getMessage() + "\n");
 
                 throw new InvalidLoginException();
 
@@ -83,7 +91,7 @@ public class MainApp {
         }
          else
         {
-            System.out.println("Invalid login credential!");
+            System.out.println("Invalid login!");
         }
     }
     private void menuMain() {
@@ -122,4 +130,3 @@ public class MainApp {
         }
     }
 }
-

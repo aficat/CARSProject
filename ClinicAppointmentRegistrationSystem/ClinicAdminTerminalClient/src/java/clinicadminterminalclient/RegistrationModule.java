@@ -6,11 +6,16 @@
 package clinicadminterminalclient;
 
 import ejb.session.stateful.RegistrationControllerRemote;
+import ejb.session.stateless.DoctorEntityControllerRemote;
+import ejb.session.stateless.PatientEntityControllerRemote;
+import ejb.session.stateless.StaffEntityControllerRemote;
 import entity.StaffEntity;
 import entity.PatientEntity;
 import entity.DoctorEntity;
 import java.util.List;
 import java.util.Scanner;
+import util.exception.DoctorNotFoundException;
+import util.exception.PatientNotFoundException;
 
 /**
  *
@@ -20,24 +25,28 @@ import java.util.Scanner;
 
 public class RegistrationModule {
 
+    private StaffEntityControllerRemote staffEntityControllerRemote;
+    private DoctorEntityControllerRemote doctorEntityControllerRemote;
+    private PatientEntityControllerRemote patientEntityControllerRemote;
     private RegistrationControllerRemote registrationControllerRemote;
     private StaffEntity currentStaffEntity;
     private PatientEntity currentPatientEntity;
     private DoctorEntity currentDoctorEntity;
     private int queue = 0;
     
-    public RegistrationModule(RegistrationControllerRemote registrationControllerRemote) {
-    	//this();
-
-    	this.registrationControllerRemote = registrationControllerRemote;
-	}
+    public RegistrationModule(StaffEntityControllerRemote staffEntityControllerRemote, DoctorEntityControllerRemote doctorEntityControllerRemote, PatientEntityControllerRemote patientEntityControllerRemote, RegistrationControllerRemote registrationControllerRemote) {
+        this.staffEntityControllerRemote = staffEntityControllerRemote;
+        this.doctorEntityControllerRemote = doctorEntityControllerRemote;
+        this.patientEntityControllerRemote = patientEntityControllerRemote;
+        this.registrationControllerRemote = registrationControllerRemote;
+ }
     
     public RegistrationModule(StaffEntity currentStaffEntity, RegistrationControllerRemote registrationControllerRemote) {
-    	//this();
-    	
-    	this.currentStaffEntity = currentStaffEntity;
-    	this.registrationControllerRemote = registrationControllerRemote;
-	}
+     //this();
+     
+     this.currentStaffEntity = currentStaffEntity;
+     this.registrationControllerRemote = registrationControllerRemote;
+ }
     
     public void menuRegistration() {
         Scanner scanner = new Scanner(System.in);
@@ -80,29 +89,33 @@ public class RegistrationModule {
     private void registerPatient()
     {
         Scanner scanner = new Scanner(System.in);
+        PatientEntity newPatient = new PatientEntity();
         
         System.out.println("*** CARS :: Registration Operation :: Register Patient ***\n");
         
         System.out.print("Enter Identity Number> ");
-        String identityNumber = scanner.nextLine().trim();
+        newPatient.setIdentityNumber(scanner.nextLine().trim());
         System.out.print("Enter Security Code> ");
-        String securityCode = scanner.nextLine().trim();
+        newPatient.setSecurityCode(scanner.nextLine().trim());
         System.out.print("Enter First Name> ");
-        String firstName = scanner.nextLine().trim();
+        newPatient.setFirstName(scanner.nextLine().trim());
         System.out.print("Enter Last Name> ");
-        String lastName = scanner.nextLine().trim();
+        newPatient.setLastName(scanner.nextLine().trim());
         System.out.print("Enter Gender> ");
-        String gender = scanner.nextLine().trim();
+        newPatient.setGender(scanner.nextLine().trim());
         System.out.print("Enter Age> ");
-        int age = scanner.nextInt();
+        newPatient.setAge(scanner.nextInt());
         scanner.nextLine();
         System.out.print("Enter Phone> ");
-        String phone = scanner.nextLine().trim();
+        newPatient.setPhone(scanner.nextLine().trim());
         System.out.print("Enter Address> ");
-        String address = scanner.nextLine().trim();
+        newPatient.setAddress(scanner.nextLine().trim());
+        
+        // newPatient.setPatientId(3l);
         
         // if no other patient has same IDENTITY NUMBER, add patient
         // check last id then add to next patient
+        newPatient = patientEntityControllerRemote.createNewPatient(newPatient);
         System.out.println("Patient has been registered successfully!\n");
         
     }
@@ -114,19 +127,40 @@ public class RegistrationModule {
         System.out.println("*** CARS :: Registration Operation :: Register Walk-In Consultation ***\n");
         System.out.println("Doctor:\n");
         // list all doctor in database (id, firstname lastname)
+        List<DoctorEntity> doctorEntities = doctorEntityControllerRemote.retrieveAllDoctors();
+        System.out.printf("%8s%20s\n", "Id", "| Name");
+
+        for (DoctorEntity doctorEntity:doctorEntities)
+        {
+            System.out.printf("%8s%20s\n", doctorEntity.getDoctorId().toString(), "| " + doctorEntity.getFirstName() + " " + doctorEntity.getLastName());
+        }
+        
+        scanner.nextLine();
         System.out.println("Availability:\n");
         // list all slots available to book
         
         System.out.print("Enter Doctor Id> ");
         Long doctorId = scanner.nextLong();
+        
+        // search doctor
+        try {
+            currentDoctorEntity = doctorEntityControllerRemote.retrieveDoctorById(doctorId);      
+        } catch(DoctorNotFoundException ex) {
+            System.out.println("An error has occurred while retrieving doctor: " + ex.getMessage() + "\n");
+        }
+        
         scanner.nextLine();
         System.out.print("Enter Patient Identity Number> ");
         String identityNumber = scanner.nextLine().trim();
         
-        // search doctor
         // search patient
+        try {
+            currentPatientEntity = patientEntityControllerRemote.retrievePatientByIdentityNumber(identityNumber);      
+        } catch(PatientNotFoundException ex) {
+            System.out.println("An error has occurred while retrieving patient: " + ex.getMessage() + "\n");
+        }
         
-        System.out.println("patientfirstname lastname is going to see doctorfirstname lastname at time. Queue Number is: number.\n");
+        System.out.println(currentPatientEntity.getFirstName() + " " + currentPatientEntity.getLastName() + " is going to see " + currentDoctorEntity.getFirstName() + " " + currentDoctorEntity.getLastName() + " at time. Queue Number is: number.\n");
     }
     
     private void consultAppointment() {
@@ -138,6 +172,12 @@ public class RegistrationModule {
         System.out.print("Enter Patient Identity Number> ");
         String identityNumber = scanner.nextLine().trim();
         // search appointment set by patient
+        // search patient
+        try {
+            currentPatientEntity = patientEntityControllerRemote.retrievePatientByIdentityNumber(identityNumber);      
+        } catch(PatientNotFoundException ex) {
+            System.out.println("An error has occurred while retrieving patient: " + ex.getMessage() + "\n");
+        }
 
         System.out.println("Appointments:\n");
         // list appointment
@@ -145,7 +185,7 @@ public class RegistrationModule {
         System.out.print("Enter Appointment Id> ");
         int appointmentId = scanner.nextInt();
         
-        System.out.println("patientfirstname lastname is going to see doctorfirstname lastname at time. Queue Number is: number.\n");
+        System.out.println(currentPatientEntity.getFirstName() + " " + currentPatientEntity.getLastName() + " is going to see doctorfirstname lastname at time. Queue Number is: number.\n");
     }
     
     public void menuAppointment() {

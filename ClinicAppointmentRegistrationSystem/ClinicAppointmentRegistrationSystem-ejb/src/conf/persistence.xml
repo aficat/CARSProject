@@ -6,9 +6,10 @@
     <class>entity.PatientEntity</class>
     <class>entity.DoctorEntity</class>
     <class>entity.ConsultationEntity</class>
+    <class>entity.AppointmentEntity</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
 </persistence>

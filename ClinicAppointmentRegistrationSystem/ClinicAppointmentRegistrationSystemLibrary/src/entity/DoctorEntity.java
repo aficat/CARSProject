@@ -25,9 +25,10 @@ public class DoctorEntity implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(unique = true)
     private Long doctorId;
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
     private String lastName;
     private String registration;
     private String qualifications;
