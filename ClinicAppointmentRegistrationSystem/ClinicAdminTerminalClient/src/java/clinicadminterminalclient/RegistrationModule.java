@@ -32,7 +32,6 @@ public class RegistrationModule {
     private StaffEntity currentStaffEntity;
     private PatientEntity currentPatientEntity;
     private DoctorEntity currentDoctorEntity;
-    private int queue = 0;
     
     public RegistrationModule(StaffEntityControllerRemote staffEntityControllerRemote, DoctorEntityControllerRemote doctorEntityControllerRemote, PatientEntityControllerRemote patientEntityControllerRemote, RegistrationControllerRemote registrationControllerRemote) {
         this.staffEntityControllerRemote = staffEntityControllerRemote;
@@ -188,12 +187,4 @@ public class RegistrationModule {
         System.out.println(currentPatientEntity.getFirstName() + " " + currentPatientEntity.getLastName() + " is going to see doctorfirstname lastname at time. Queue Number is: number.\n");
     }
     
-    public void menuAppointment() {
-        
-    }
-    
-    public void menuAdministration() {
-        
-        
-    }
 }

@@ -18,6 +18,9 @@ public class MainApp {
 
     private StaffEntity currentStaffEntity;
     private RegistrationModule registrationModule;
+    private AppointmentModule appointmentModule;
+    private AdministrationModule administrationModule;
+    public int queue = 0;
 
     public MainApp() {
     }
@@ -50,6 +53,8 @@ public class MainApp {
                     try {
                         doLogin();
                         registrationModule = new RegistrationModule(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote);
+                        appointmentModule = new AppointmentModule(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote);
+                        administrationModule = new AdministrationModule(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote);
                         menuMain();
                     } 
                     catch (InvalidLoginException ex) {
@@ -116,9 +121,9 @@ public class MainApp {
                 if(response == 1) {
                     registrationModule.menuRegistration();
                 } else if(response == 2) {
-                    registrationModule.menuAppointment();
+                    appointmentModule.menuAppointment();
                 } else if(response == 3) {
-                    registrationModule.menuAdministration();
+                    administrationModule.menuAdministration();
                 } else if(response == 4) {
                     break;
                 } else {
