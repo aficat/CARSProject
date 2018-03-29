@@ -2,12 +2,17 @@
 
   import java.io.Serializable;
   import java.sql.Time;
+import java.util.ArrayList;
   import javax.persistence.Column;
   import javax.persistence.Entity;
-  import java.util.Date;
+import java.util.Date;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
   /**
    *
@@ -22,22 +27,26 @@ import javax.persistence.Id;
       @Id
       @GeneratedValue(strategy = GenerationType.AUTO)
       private Long appointmentId;
-      @Column(unique = true, nullable = false)
-      private String identityNumber;
-      @Column(nullable = false)
-      private Long doctorId;
+      @ManyToOne
+    private PatientEntity patientA;
+    // private String identityNumber;
+    @ManyToOne
+    private DoctorEntity doctorA;
+    @Temporal(TemporalType.DATE)
       private Date date; //YYYY-MM-DD
-      private Time time; //HH:MM
+     @Temporal(TemporalType.TIME)
+      private Date time; //HH:MM
 
       public AppointmentEntity() {
+
       }
 
-      public AppointmentEntity (Long appointmentId, String identityNumber, Long doctorId, Date date, Time time) {
+      public AppointmentEntity (Long appointmentId, PatientEntity patientA, DoctorEntity doctorA, Date date, Date time) {
           this();
 
           this.appointmentId = appointmentId;
-          this.identityNumber = identityNumber;
-          this.doctorId = doctorId;
+          this.patientA = patientA;
+          this.doctorA = doctorA;
           this.date = date;
           this.time = time;
       }
@@ -50,27 +59,27 @@ import javax.persistence.Id;
           this.appointmentId = appointmentId;
       }
 
-      public String getIdentityNumber() {
-          return identityNumber;
-      }
+      public PatientEntity getPatient() {
+        return patientA;
+    }
 
-      public void setIdentityNumber(String identityNumber) {
-          this.identityNumber = identityNumber;
-      }
+    public void setPatient(PatientEntity patient) {
+        this.patientA = patient;
+    }
 
-      public Long getDoctorId() {
-          return doctorId;
-      }
+    public DoctorEntity getDoctor() {
+        return doctorA;
+    }
 
-      public void setDoctorId(Long doctorId) {
-          this.doctorId = doctorId;
-      }
+    public void setDoctor(DoctorEntity doctor) {
+        this.doctorA = doctor;
+    }
       
-      public Time getTime() {
+      public Date getTime() {
           return time;
       }
 
-      public void setTime(Time time) {
+      public void setTime(Date time) {
           this.time = time;
       }
       

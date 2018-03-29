@@ -25,11 +25,10 @@ import util.exception.StaffNotFoundException;
  * A0160361R
  */
 
+//consultation controller
 public class RegistrationController implements RegistrationControllerLocal, RegistrationControllerRemote {
-   
-    private String identityNumber;
-    private Long doctorId;
-    private Integer queue;
+    
+    public Integer queue;
 
     public RegistrationController() {
         // entityManager = new EntityManager();
@@ -39,6 +38,7 @@ public class RegistrationController implements RegistrationControllerLocal, Regi
     
     private void initialiseState() {
         // reset queue number and consultation list
+        queue = 0;
     }
     
     

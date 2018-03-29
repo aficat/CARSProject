@@ -3,10 +3,10 @@
   <persistence-unit name="ClinicAppointmentRegistrationSystem-ejbPU" transaction-type="JTA">
     <jta-data-source>jdbc/clinicAppointmentRegistrationSystem</jta-data-source>
     <class>entity.StaffEntity</class>
-    <class>entity.PatientEntity</class>
-    <class>entity.DoctorEntity</class>
     <class>entity.ConsultationEntity</class>
     <class>entity.AppointmentEntity</class>
+        <class>entity.PatientEntity</class>
+        <class>entity.DoctorEntity</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>

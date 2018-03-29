@@ -20,7 +20,6 @@ public class MainApp {
     private RegistrationModule registrationModule;
     private AppointmentModule appointmentModule;
     private AdministrationModule administrationModule;
-    public int queue = 0;
 
     public MainApp() {
     }

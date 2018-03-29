@@ -7,11 +7,18 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+//import util.exception.AppointmentEntityInstanceExistsInListException;
+//import util.exception.AppointmentEntityInstanceMissingInListException;
+//import util.exception.ConsultationEntityInstanceExistsInListException;
+//import util.exception.ConsultationEntityInstanceMissingInListException;
 
 /**
  *
@@ -33,8 +40,16 @@ public class DoctorEntity implements Serializable {
     private String registration;
     private String qualifications;
     
+    @OneToMany
+    private List<ConsultationEntity> consultationEntities;
+    
+    @OneToMany
+    private List<AppointmentEntity> appointmentEntities;
     
     public DoctorEntity() {
+        
+        appointmentEntities =  new ArrayList<>();
+        consultationEntities =  new ArrayList<>();
     }
 
     public DoctorEntity(String firstName, String lastName, String registration) {
@@ -123,5 +138,73 @@ public class DoctorEntity implements Serializable {
 
     public void setQualifications(String qualifications) {
         this.qualifications = qualifications;
+    }
+    
+    public List<ConsultationEntity> getConsultationEntities() {
+        return consultationEntities;
+    }
+
+    public void setConsultationEntities(List<ConsultationEntity> consultationEntities) {
+        this.consultationEntities = consultationEntities;
+    }
+    
+    public void addConsultationEntity(ConsultationEntity consultationEntity)// throws ConsultationEntityInstanceExistsInListException
+    {
+        if(!this.consultationEntities.contains(consultationEntity))
+        {
+            this.consultationEntities.add(consultationEntity);
+        }
+        else
+        {
+           // throw new ConsultationEntityInstanceExistsInListException("Consultation already exist");
+        }
+    }
+    
+    
+    
+    public void removeConsultationEntity(ConsultationEntity consultationEntity) // throws ConsultationEntityInstanceMissingInListException
+    {
+        if(this.consultationEntities.contains(consultationEntity))
+        {
+            this.consultationEntities.remove(consultationEntity);
+        }
+        else
+        {
+            // throw new ConsultationEntityInstanceMissingInListException("Consultation missing");
+        }
+    }
+    
+        public List<AppointmentEntity> getAppointmentEntities() {
+        return appointmentEntities;
+    }
+
+    public void setAppointmentEntities(List<AppointmentEntity> appointmentEntities) {
+        this.appointmentEntities = appointmentEntities;
+    }
+    
+    public void addAppointmentEntity(AppointmentEntity appointmentEntity)// throws AppointmentEntityInstanceExistsInListException
+    {
+        if(!this.appointmentEntities.contains(appointmentEntity))
+        {
+            this.appointmentEntities.add(appointmentEntity);
+        }
+        else
+        {
+           // throw new AppointmentEntityInstanceExistsInListException("Appointment already exist");
+        }
+    }
+    
+    
+    
+    public void removeAppointmentEntity(AppointmentEntity appointmentEntity)// throws AppointmentEntityInstanceMissingInListException
+    {
+        if(this.appointmentEntities.contains(appointmentEntity))
+        {
+            this.appointmentEntities.remove(appointmentEntity);
+        }
+        else
+        {
+           // throw new AppointmentEntityInstanceMissingInListException("Appointment missing");
+        }
     }
 }

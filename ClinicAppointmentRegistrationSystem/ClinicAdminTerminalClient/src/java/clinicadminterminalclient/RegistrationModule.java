@@ -159,7 +159,7 @@ public class RegistrationModule {
             System.out.println("An error has occurred while retrieving patient: " + ex.getMessage() + "\n");
         }
         
-        System.out.println(currentPatientEntity.getFirstName() + " " + currentPatientEntity.getLastName() + " is going to see " + currentDoctorEntity.getFirstName() + " " + currentDoctorEntity.getLastName() + " at time. Queue Number is: number.\n");
+        System.out.println(currentPatientEntity.getFirstName() + " " + currentPatientEntity.getLastName() + " is going to see " + currentDoctorEntity.getFirstName() + " " + currentDoctorEntity.getLastName() + " at time. Queue Number is: " + registrationControllerRemote.getQueue() + "\n");
     }
     
     private void consultAppointment() {
@@ -184,7 +184,7 @@ public class RegistrationModule {
         System.out.print("Enter Appointment Id> ");
         int appointmentId = scanner.nextInt();
         
-        System.out.println(currentPatientEntity.getFirstName() + " " + currentPatientEntity.getLastName() + " is going to see doctorfirstname lastname at time. Queue Number is: number.\n");
+        System.out.println(currentPatientEntity.getFirstName() + " " + currentPatientEntity.getLastName() + " is going to see doctorfirstname lastname at time. Queue Number is: " + registrationControllerRemote.getQueue() + "\n");
     }
     
 }
