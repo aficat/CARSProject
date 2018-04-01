@@ -9,17 +9,12 @@ import entity.StaffEntity;
 import java.util.List;
 import util.exception.InvalidLoginException;
 
-/**
- *
- * @author Afiqah Rashid
- * A0160361R
- */
-
 // void queue at the end of the day
 public interface RegistrationControllerRemote {
 
             
     void clearQueue();
+    void addQueue();
     Integer getQueue();
     void setQueue(Integer queue);
 }

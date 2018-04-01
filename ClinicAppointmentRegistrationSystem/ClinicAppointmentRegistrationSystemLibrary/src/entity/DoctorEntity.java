@@ -15,10 +15,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-//import util.exception.AppointmentEntityInstanceExistsInListException;
-//import util.exception.AppointmentEntityInstanceMissingInListException;
-//import util.exception.ConsultationEntityInstanceExistsInListException;
-//import util.exception.ConsultationEntityInstanceMissingInListException;
+import util.exception.DoctorAddAppointmentException;
+import util.exception.DoctorAddConsultationException;
+import util.exception.DoctorRemoveAppointmentException;
+import util.exception.PatientAddAppointmentException;
+import util.exception.PatientRemoveAppointmentException;
+
 
 /**
  *
@@ -40,16 +42,16 @@ public class DoctorEntity implements Serializable {
     private String registration;
     private String qualifications;
     
-    @OneToMany
+    @OneToMany (mappedBy = "doctorC")
     private List<ConsultationEntity> consultationEntities;
     
-    @OneToMany
+    @OneToMany (mappedBy = "doctorA")
     private List<AppointmentEntity> appointmentEntities;
     
     public DoctorEntity() {
         
-        appointmentEntities =  new ArrayList<>();
-        consultationEntities =  new ArrayList<>();
+        this.appointmentEntities =  new ArrayList<>();
+        this.consultationEntities =  new ArrayList<>();
     }
 
     public DoctorEntity(String firstName, String lastName, String registration) {
@@ -148,31 +150,30 @@ public class DoctorEntity implements Serializable {
         this.consultationEntities = consultationEntities;
     }
     
-    public void addConsultationEntity(ConsultationEntity consultationEntity)// throws ConsultationEntityInstanceExistsInListException
+    public void addConsultation(ConsultationEntity consultation) throws DoctorAddConsultationException
     {
-        if(!this.consultationEntities.contains(consultationEntity))
+        if(consultation != null && !this.getConsultationEntities().contains(consultation))
         {
-            this.consultationEntities.add(consultationEntity);
+            this.getConsultationEntities().add(consultation);
         }
         else
         {
-           // throw new ConsultationEntityInstanceExistsInListException("Consultation already exist");
+            throw new DoctorAddConsultationException("Consultation already added to Doctor");
         }
     }
     
-    
-    
-    public void removeConsultationEntity(ConsultationEntity consultationEntity) // throws ConsultationEntityInstanceMissingInListException
+    /*
+        public void removeConsultation(ConsultationEntity consultation) throws DoctorRemoveConsultationException
     {
-        if(this.consultationEntities.contains(consultationEntity))
+        if(consultation != null && this.consultationEntities.contains(consultation))
         {
-            this.consultationEntities.remove(consultationEntity);
+            this.getConsultationEntities().remove(consultation);
         }
         else
         {
-            // throw new ConsultationEntityInstanceMissingInListException("Consultation missing");
+            throw new DoctorRemoveConsultationException("Consultation has not been added to Doctor");
         }
-    }
+    }*/
     
         public List<AppointmentEntity> getAppointmentEntities() {
         return appointmentEntities;
@@ -182,29 +183,27 @@ public class DoctorEntity implements Serializable {
         this.appointmentEntities = appointmentEntities;
     }
     
-    public void addAppointmentEntity(AppointmentEntity appointmentEntity)// throws AppointmentEntityInstanceExistsInListException
+    public void addAppointment(AppointmentEntity appointment) throws DoctorAddAppointmentException
     {
-        if(!this.appointmentEntities.contains(appointmentEntity))
+        if(appointment != null && !this.getAppointmentEntities().contains(appointment))
         {
-            this.appointmentEntities.add(appointmentEntity);
+            this.getAppointmentEntities().add(appointment);
         }
-        else
+        else 
         {
-           // throw new AppointmentEntityInstanceExistsInListException("Appointment already exist");
+            throw new DoctorAddAppointmentException("Appointment already added to Doctor");
         }
     }
     
-    
-    
-    public void removeAppointmentEntity(AppointmentEntity appointmentEntity)// throws AppointmentEntityInstanceMissingInListException
+    public void removeAppointment(AppointmentEntity appointment) throws DoctorRemoveAppointmentException 
     {
-        if(this.appointmentEntities.contains(appointmentEntity))
+        if(appointment != null && this.appointmentEntities.contains(appointment))
         {
-            this.appointmentEntities.remove(appointmentEntity);
+            this.getAppointmentEntities().remove(appointment);
         }
         else
         {
-           // throw new AppointmentEntityInstanceMissingInListException("Appointment missing");
+            throw new DoctorRemoveAppointmentException("Appointment has not been added to Doctor");
         }
     }
 }

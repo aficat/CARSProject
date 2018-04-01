@@ -8,12 +8,10 @@ package entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.sql.Time;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,17 +35,16 @@ public class ConsultationEntity implements Serializable {
     @ManyToOne
     private DoctorEntity doctorC;
     @Temporal(TemporalType.TIME)
-      private Date time; //HH:MM
+    private Date time; //HH:MM
     
     public ConsultationEntity() {
+        
     }
 
-    public ConsultationEntity(Long consultationId, PatientEntity patientC, DoctorEntity doctorC, Date time) {
+    public ConsultationEntity(Long consultationId, Date time) {
         this();
         
          this.consultationId = consultationId;
-         this.patientC = patientC;
-         this.doctorC = doctorC;
          this.time = time;
     }
     

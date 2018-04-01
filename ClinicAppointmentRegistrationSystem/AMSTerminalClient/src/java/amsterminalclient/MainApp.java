@@ -1,7 +1,15 @@
-
+/*
+ * Group 3 IS2103 Assignment 2
+ * Group members:
+ * - Loon Hai Qi , A0160483H
+ * - Madeline Tooh Weiping , A0160349E
+ * - Nurul Afiqah Binte Rashid , A0160361R
+ * 
+ */
 package amsterminalclient;
 
 import ejb.session.stateful.RegistrationControllerRemote;
+import ejb.session.stateless.AppointmentEntityControllerRemote;
 import ejb.session.stateless.DoctorEntityControllerRemote;
 import ejb.session.stateless.PatientEntityControllerRemote;
 import ejb.session.stateless.StaffEntityControllerRemote;
@@ -15,20 +23,19 @@ public class MainApp {
     private StaffEntityControllerRemote staffEntityControllerRemote;
     private DoctorEntityControllerRemote doctorEntityControllerRemote;
     private PatientEntityControllerRemote patientEntityControllerRemote;
-    //private AppointmentControllerRemote appointmentControllerRemote;
+    private AppointmentEntityControllerRemote appointmentEntityControllerRemote;
 
     private PatientEntity currentPatientEntity;
     private StaffEntity currentStaffEntity;
-    private AppointmentModule appointmentModule;
 
     public MainApp() {
     }
 
-    MainApp(StaffEntityControllerRemote staffEntityControllerRemote, DoctorEntityControllerRemote doctorEntityControllerRemote, PatientEntityControllerRemote patientEntityControllerRemote) {
+    MainApp(StaffEntityControllerRemote staffEntityControllerRemote, DoctorEntityControllerRemote doctorEntityControllerRemote, PatientEntityControllerRemote patientEntityControllerRemote, AppointmentEntityControllerRemote appointmentEntityControllerRemote) {
         this.staffEntityControllerRemote = staffEntityControllerRemote;
         this.doctorEntityControllerRemote = doctorEntityControllerRemote;
         this.patientEntityControllerRemote = patientEntityControllerRemote;
-        // this.appointmentControllerRemote = appointmentControllerRemote;
+        this.appointmentEntityControllerRemote = appointmentEntityControllerRemote;
     }
 
     public void runApp() {
@@ -54,7 +61,6 @@ public class MainApp {
 
                     try {
                         doLogin();
-                        appointmentModule = new AppointmentModule(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote);
                         menuMain();
                     } 
                     catch (InvalidLoginException ex) {
@@ -149,18 +155,18 @@ public class MainApp {
             System.out.println("4: Logout\n");
             response = 0;
             
-            while(response < 1 || response > 6) {
+            while(response < 1 || response > 4) {
                 System.out.print("> ");
 
                 response = scanner.nextInt();
 
-                if(response == 1) { //View Appointments
-                    
-                } else if(response == 1) { //Register Consultation By Appointment
-                    
-                } else if(response == 3) { //View Appointments
-                   
-                } else if(response == 4) { // Logout
+                if(response == 1) {
+                    viewPatientAppointments();
+                } else if(response == 2) {
+                    addAppointment();
+                } else if(response == 3) {
+                    cancelAppointment();
+                } else if(response == 4) {
                     break;
                 } else {
                     System.out.println("Invalid option, please try again!\n");                
@@ -169,5 +175,16 @@ public class MainApp {
                 break;
             }
         }
+    }
+    private void viewPatientAppointments() {
+        
+    }
+    
+    private void addAppointment() {
+        
+    }
+    
+    private void cancelAppointment() {
+        
     }
 }

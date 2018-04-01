@@ -1,14 +1,20 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Group 3 IS2103 Assignment 2
+ * Group members:
+ * - Loon Hai Qi , A0160483H
+ * - Madeline Tooh Weiping , A0160349E
+ * - Nurul Afiqah Binte Rashid , A0160361R
+ * 
  */
 package selfservicekioskterminalclient;
 
 import ejb.session.stateful.RegistrationControllerRemote;
+import ejb.session.stateless.AppointmentEntityControllerRemote;
+import ejb.session.stateless.ConsultationEntityControllerRemote;
 import ejb.session.stateless.DoctorEntityControllerRemote;
 import ejb.session.stateless.PatientEntityControllerRemote;
 import ejb.session.stateless.StaffEntityControllerRemote;
+import java.text.ParseException;
 import javax.ejb.EJB;
 
 public class Main {
@@ -24,10 +30,16 @@ public class Main {
     
     @EJB
     private static RegistrationControllerRemote registrationControllerRemote;
+    
+    @EJB
+    private static ConsultationEntityControllerRemote consultationEntityControllerRemote;
+    
+    @EJB 
+    private static AppointmentEntityControllerRemote appointmentEntityControllerRemote;
   
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         
-        MainApp mainApp = new MainApp(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote);
+        MainApp mainApp = new MainApp(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote, consultationEntityControllerRemote, appointmentEntityControllerRemote);
         mainApp.runApp();
     }
 }

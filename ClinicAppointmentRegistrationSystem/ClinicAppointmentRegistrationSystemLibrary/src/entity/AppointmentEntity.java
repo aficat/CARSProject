@@ -14,11 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-  /**
-   *
-   * @author Afiqah Rashid
-   * A0160361R
-   */
 
   @Entity
   public class AppointmentEntity implements Serializable {
@@ -41,12 +36,10 @@ import javax.persistence.TemporalType;
 
       }
 
-      public AppointmentEntity (Long appointmentId, PatientEntity patientA, DoctorEntity doctorA, Date date, Date time) {
+      public AppointmentEntity (Long appointmentId, Date date, Date time) {
           this();
 
           this.appointmentId = appointmentId;
-          this.patientA = patientA;
-          this.doctorA = doctorA;
           this.date = date;
           this.time = time;
       }

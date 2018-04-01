@@ -1,11 +1,21 @@
-
+/*
+ * Group 3 IS2103 Assignment 2
+ * Group members:
+ * - Loon Hai Qi , A0160483H
+ * - Madeline Tooh Weiping , A0160349E
+ * - Nurul Afiqah Binte Rashid , A0160361R
+ * 
+ */
 package clinicadminterminalclient;
 
 import ejb.session.stateful.RegistrationControllerRemote;
+import ejb.session.stateless.AppointmentEntityControllerRemote;
+import ejb.session.stateless.ConsultationEntityControllerRemote;
 import ejb.session.stateless.DoctorEntityControllerRemote;
 import ejb.session.stateless.PatientEntityControllerRemote;
 import ejb.session.stateless.StaffEntityControllerRemote;
 import entity.StaffEntity;
+import java.text.ParseException;
 import java.util.Scanner;
 import util.exception.InvalidLoginException;
 
@@ -15,23 +25,28 @@ public class MainApp {
     private DoctorEntityControllerRemote doctorEntityControllerRemote;
     private PatientEntityControllerRemote patientEntityControllerRemote;
     private RegistrationControllerRemote registrationControllerRemote;
+    private ConsultationEntityControllerRemote consultationEntityControllerRemote;
+    private AppointmentEntityControllerRemote appointmentEntityControllerRemote;
 
     private StaffEntity currentStaffEntity;
     private RegistrationModule registrationModule;
     private AppointmentModule appointmentModule;
     private AdministrationModule administrationModule;
+    public int queue = 0;
 
     public MainApp() {
     }
 
-    MainApp(StaffEntityControllerRemote staffEntityControllerRemote, DoctorEntityControllerRemote doctorEntityControllerRemote, PatientEntityControllerRemote patientEntityControllerRemote, RegistrationControllerRemote registrationControllerRemote) {
-        this.staffEntityControllerRemote = staffEntityControllerRemote;
+    MainApp(StaffEntityControllerRemote staffEntityControllerRemote, DoctorEntityControllerRemote doctorEntityControllerRemote, PatientEntityControllerRemote patientEntityControllerRemote, RegistrationControllerRemote registrationControllerRemote, ConsultationEntityControllerRemote consultationEntityControllerRemote, AppointmentEntityControllerRemote appointmentEntityControllerRemote){ 
+        this.staffEntityControllerRemote = staffEntityControllerRemote;    
         this.doctorEntityControllerRemote = doctorEntityControllerRemote;
         this.patientEntityControllerRemote = patientEntityControllerRemote;
         this.registrationControllerRemote = registrationControllerRemote;
+        this.consultationEntityControllerRemote = consultationEntityControllerRemote;
+        this.appointmentEntityControllerRemote = appointmentEntityControllerRemote;
     }
 
-    public void runApp() {
+    public void runApp() throws ParseException {
 
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
@@ -51,8 +66,8 @@ public class MainApp {
 
                     try {
                         doLogin();
-                        registrationModule = new RegistrationModule(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote);
-                        appointmentModule = new AppointmentModule(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote);
+                        registrationModule = new RegistrationModule(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote, consultationEntityControllerRemote, appointmentEntityControllerRemote);
+                        appointmentModule = new AppointmentModule(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote, appointmentEntityControllerRemote);
                         administrationModule = new AdministrationModule(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote);
                         menuMain();
                     } 
@@ -98,7 +113,7 @@ public class MainApp {
             System.out.println("Invalid login!");
         }
     }
-    private void menuMain() {
+    private void menuMain() throws ParseException {
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
         

@@ -5,15 +5,14 @@
  */
 package ejb.session.stateful;
 
-import entity.StaffEntity;
-import java.util.ArrayList;
-import java.util.List;
+
+import ejb.session.stateless.ConsultationEntityControllerLocal;
+import ejb.session.stateless.DoctorEntityControllerLocal;
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateful;
-import util.exception.InvalidLoginException;
-import util.exception.StaffNotFoundException;
+import javax.persistence.EntityManager;
 
 @Stateful
 @Local(RegistrationControllerLocal.class)
@@ -27,7 +26,8 @@ import util.exception.StaffNotFoundException;
 
 //consultation controller
 public class RegistrationController implements RegistrationControllerLocal, RegistrationControllerRemote {
-    
+
+    private EntityManager entityManager;
     public Integer queue;
 
     public RegistrationController() {
@@ -38,7 +38,7 @@ public class RegistrationController implements RegistrationControllerLocal, Regi
     
     private void initialiseState() {
         // reset queue number and consultation list
-        queue = 0;
+        queue = 1;
     }
     
     
@@ -46,6 +46,10 @@ public class RegistrationController implements RegistrationControllerLocal, Regi
     @Override
     public void clearQueue() {
         initialiseState();
+    }
+    
+    public void addQueue() {
+        this.queue++;
     }
     
     @Override

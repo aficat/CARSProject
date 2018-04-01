@@ -1,12 +1,22 @@
-
+/*
+ * Group 3 IS2103 Assignment 2
+ * Group members:
+ * - Loon Hai Qi , A0160483H
+ * - Madeline Tooh Weiping , A0160349E
+ * - Nurul Afiqah Binte Rashid , A0160361R
+ * 
+ */
 package selfservicekioskterminalclient;
 
 import ejb.session.stateful.RegistrationControllerRemote;
+import ejb.session.stateless.AppointmentEntityControllerRemote;
+import ejb.session.stateless.ConsultationEntityControllerRemote;
 import ejb.session.stateless.DoctorEntityControllerRemote;
 import ejb.session.stateless.PatientEntityControllerRemote;
 import ejb.session.stateless.StaffEntityControllerRemote;
 import entity.PatientEntity;
 import entity.StaffEntity;
+import java.text.ParseException;
 import java.util.Scanner;
 import util.exception.InvalidLoginException;
 
@@ -16,22 +26,27 @@ public class MainApp {
     private DoctorEntityControllerRemote doctorEntityControllerRemote;
     private PatientEntityControllerRemote patientEntityControllerRemote;
     private RegistrationControllerRemote registrationControllerRemote;
+    private ConsultationEntityControllerRemote consultationEntityControllerRemote;
+    private AppointmentEntityControllerRemote appointmentEntityControllerRemote;
 
     private PatientEntity currentPatientEntity;
-    private StaffEntity currentStaffEntity;
     private RegistrationModule registrationModule;
+    private AppointmentModule appointmentModule;
+    public int queue = 0;
 
     public MainApp() {
     }
 
-    MainApp(StaffEntityControllerRemote staffEntityControllerRemote, DoctorEntityControllerRemote doctorEntityControllerRemote, PatientEntityControllerRemote patientEntityControllerRemote, RegistrationControllerRemote registrationControllerRemote) {
-        this.staffEntityControllerRemote = staffEntityControllerRemote;
+    MainApp(StaffEntityControllerRemote staffEntityControllerRemote, DoctorEntityControllerRemote doctorEntityControllerRemote, PatientEntityControllerRemote patientEntityControllerRemote, RegistrationControllerRemote registrationControllerRemote, ConsultationEntityControllerRemote consultationEntityControllerRemote, AppointmentEntityControllerRemote appointmentEntityControllerRemote){ 
+        this.staffEntityControllerRemote = staffEntityControllerRemote;    
         this.doctorEntityControllerRemote = doctorEntityControllerRemote;
         this.patientEntityControllerRemote = patientEntityControllerRemote;
         this.registrationControllerRemote = registrationControllerRemote;
+        this.consultationEntityControllerRemote = consultationEntityControllerRemote;
+        this.appointmentEntityControllerRemote = appointmentEntityControllerRemote;
     }
 
-    public void runApp() {
+    public void runApp() throws ParseException {
 
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
@@ -54,7 +69,8 @@ public class MainApp {
 
                     try {
                         doLogin();
-                        registrationModule = new RegistrationModule(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote);
+                        registrationModule = new RegistrationModule(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote, consultationEntityControllerRemote, appointmentEntityControllerRemote);
+                        appointmentModule = new AppointmentModule(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote, appointmentEntityControllerRemote);
                         menuMain();
                     } 
                     catch (InvalidLoginException ex) {
@@ -131,11 +147,11 @@ public class MainApp {
         // if no other patient has same IDENTITY NUMBER, add patient
         // check last id then add to next patient
         newPatient = patientEntityControllerRemote.createNewPatient(newPatient);
-        System.out.println("Patient has been registered successfully!\n");
+        System.out.println("You has been registered successfully!\n");
         
     }
     
-    private void menuMain() {
+    private void menuMain() throws ParseException {
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
         
@@ -157,15 +173,15 @@ public class MainApp {
                 response = scanner.nextInt();
 
                 if(response == 1) { //Register Walk-In Consultation
-                    registrationModule.consultWalkIn();
+                    registrationModule.walkIn();
                 } else if(response == 2) { //Register Consultation By Appointment
-                    registrationModule.consultAppointment();
+                    registrationModule.consultApp();
                 } else if(response == 3) { //View Appointments
-                    
-                } else if(response == 4) { //Register Consultation By Appointment
-                    
-                } else if(response == 5) { //View Appointments
-                   
+                    appointmentModule.viewApp();
+                } else if(response == 4) { //Add appointment
+                    appointmentModule.registerApp();
+                } else if(response == 5) { //cancel appointemnt
+                   appointmentModule.cancelApp();
                 } else if(response == 6) { // Logout
                     break;
                 } else {

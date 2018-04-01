@@ -7,7 +7,6 @@ package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,10 +14,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-//import util.exception.AppointmentEntityInstanceExistsInListException;
-//import util.exception.AppointmentEntityInstanceMissingInListException;
-//import util.exception.ConsultationEntityInstanceExistsInListException;
-//import util.exception.ConsultationEntityInstanceMissingInListException;
+import util.exception.PatientAddAppointmentException;
+import util.exception.PatientAddConsultationException;
+import util.exception.PatientRemoveAppointmentException;
+import util.exception.PatientRemoveConsultationException;
 
 /**
  *
@@ -45,16 +44,16 @@ public class PatientEntity implements Serializable{
     private String phone;
     private String address;
     
-    @OneToMany
+    @OneToMany (mappedBy = "patientC")
     private List<ConsultationEntity> consultationEntities;
     
-    @OneToMany
+    @OneToMany (mappedBy = "patientA")
     private List<AppointmentEntity> appointmentEntities;
     
     public PatientEntity(){
                   
-        appointmentEntities =  new ArrayList<>();
-        consultationEntities =  new ArrayList<>();
+        this.appointmentEntities =  new ArrayList<>();
+        this.consultationEntities =  new ArrayList<>();
     }
     
     public PatientEntity(String firstName, String lastName, String identityNumber, String securityCode) {
@@ -203,31 +202,31 @@ public class PatientEntity implements Serializable{
         this.consultationEntities = consultationEntities;
     }
     
-    public void addConsultationEntity(ConsultationEntity consultationEntity)// throws ConsultationEntityInstanceExistsInListException
+    public void addConsultation(ConsultationEntity consultation) throws PatientAddConsultationException
     {
-        if(!this.consultationEntities.contains(consultationEntity))
+        if(consultation != null && !this.getConsultationEntities().contains(consultation))
         {
-            this.consultationEntities.add(consultationEntity);
+            this.getConsultationEntities().add(consultation);
         }
-        else
+        else 
         {
-          //  throw new ConsultationEntityInstanceExistsInListException("Consultation already exist");
+            throw new PatientAddConsultationException("Consultation already added to Patient");
         }
     }
     
     
-    
-    public void removeConsultationEntity(ConsultationEntity consultationEntity)// throws ConsultationEntityInstanceMissingInListException
+    /*
+    public void removeConsultation(ConsultationEntity consultation) throws PatientRemoveConsultationException
     {
-        if(this.consultationEntities.contains(consultationEntity))
+        if(consultation != null && this.consultationEntities.contains(consultation))
         {
-            this.consultationEntities.remove(consultationEntity);
+            this.getConsultationEntities().remove(consultation);
         }
         else
         {
-          //  throw new ConsultationEntityInstanceMissingInListException("Consultation missing");
+            throw new PatientRemoveConsultationException("Consultation has not been added to Patient");
         }
-    }
+    }*/
     
     public List<AppointmentEntity> getAppointmentEntities() {
         return appointmentEntities;
@@ -237,29 +236,29 @@ public class PatientEntity implements Serializable{
         this.appointmentEntities = appointmentEntities;
     }
     
-    public void addAppointmentEntity(AppointmentEntity appointmentEntity)//throws AppointmentEntityInstanceExistsInListException
+    public void addAppointment(AppointmentEntity appointment) throws PatientAddAppointmentException
     {
-        if(!this.appointmentEntities.contains(appointmentEntity))
+        if(appointment != null && !this.getAppointmentEntities().contains(appointment))
         {
-            this.appointmentEntities.add(appointmentEntity);
+            this.getAppointmentEntities().add(appointment);
         }
-        else
+        else 
         {
-           // throw new AppointmentEntityInstanceExistsInListException("Appointment already exist");
+            throw new PatientAddAppointmentException("Appointment already added to Patient");
         }
     }
     
     
     
-    public void removeAppointmentEntity(AppointmentEntity appointmentEntity) //throws AppointmentEntityInstanceMissingInListException
+    public void removeAppointment(AppointmentEntity appointment) throws PatientRemoveAppointmentException 
     {
-        if(this.appointmentEntities.contains(appointmentEntity))
+        if(appointment != null && this.appointmentEntities.contains(appointment))
         {
-            this.appointmentEntities.remove(appointmentEntity);
+            this.getAppointmentEntities().remove(appointment);
         }
         else
         {
-          //  throw new AppointmentEntityInstanceMissingInListException("Appointment missing");
+            throw new PatientRemoveAppointmentException("Appointment has not been added to Patient");
         }
     }
 }
