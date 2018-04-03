@@ -1,6 +1,16 @@
+/*
+ * Group 3 IS2103 Assignment 2
+ * Group members:
+ * - Loon Hai Qi , A0160483H
+ * - Madeline Tooh Weiping , A0160349E
+ * - Nurul Afiqah Binte Rashid , A0160361R
+ * 
+ */
+
 package ejb.session.stateless;
 
 import entity.StaffEntity;
+import java.util.List;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -39,25 +49,32 @@ public class StaffEntityController implements StaffEntityControllerLocal, StaffE
        
     
     @Override
-    public StaffEntity staffLogin(String username, String password) throws InvalidLoginException {
-        try {
-            StaffEntity staffEntity = retrieveStaffByUsername(username);
-
-            if (staffEntity.getPassword().equals(password)) {
-                return staffEntity;
-            }
-            else
-            {
-                throw new InvalidLoginException("Username does not exist or invalid password!");
-            }
-        }
+    public List<StaffEntity> retrieveAllStaffs()
+    {
+        Query query = entityManager.createQuery("SELECT s FROM StaffEntity s");
         
-        catch(StaffNotFoundException ex)
+        return query.getResultList();
+    }
+    
+    
+    
+    @Override
+    public StaffEntity retrieveStaffByStaffId(Long staffId) throws StaffNotFoundException
+    {
+        StaffEntity staffEntity = entityManager.find(StaffEntity.class, staffId);
+        
+        if(staffEntity != null)
         {
-            throw new InvalidLoginException("Username does not exist or invalid password!");
+            return staffEntity;
+        }
+        else
+        {
+            throw new StaffNotFoundException("Staff ID " + staffId + " does not exist!");
         }
     }
-
+    
+    
+    
     @Override
     public StaffEntity retrieveStaffByUsername(String username) throws StaffNotFoundException
     {
@@ -72,6 +89,47 @@ public class StaffEntityController implements StaffEntityControllerLocal, StaffE
         {
             throw new StaffNotFoundException("Staff Username " + username + " does not exist!");
         }
+    }
+    
+    
+    
+    @Override
+    public StaffEntity staffLogin(String username, String password) throws InvalidLoginException
+    {
+        try
+        {
+            StaffEntity staffEntity = retrieveStaffByUsername(username);
+            
+            if(staffEntity.getPassword().equals(password))
+            {
+                return staffEntity;
+            }
+            else
+            {
+                throw new InvalidLoginException("Username does not exist or invalid password!");
+            }
+        }
+        catch(StaffNotFoundException ex)
+        {
+            throw new InvalidLoginException("Username does not exist or invalid password!");
+        }
+    }
+    
+    
+    
+    @Override
+    public void updateStaff(StaffEntity staffEntity)
+    {
+        entityManager.merge(staffEntity);
+    }
+    
+    
+    
+    @Override
+    public void deleteStaff(Long staffId) throws StaffNotFoundException
+    {
+        StaffEntity staffEntityToRemove = retrieveStaffByStaffId(staffId);
+        entityManager.remove(staffEntityToRemove);
     }
 
 }
