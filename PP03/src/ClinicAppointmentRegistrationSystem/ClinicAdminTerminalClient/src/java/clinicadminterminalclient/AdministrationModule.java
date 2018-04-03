@@ -22,7 +22,7 @@ import util.exception.PatientNotFoundException;
 import util.exception.StaffNotFoundException;
 
 public class AdministrationModule {
-    
+
     private StaffEntityControllerRemote staffEntityControllerRemote;
     private DoctorEntityControllerRemote doctorEntityControllerRemote;
     private PatientEntityControllerRemote patientEntityControllerRemote;
@@ -30,51 +30,50 @@ public class AdministrationModule {
     private StaffEntity currentStaffEntity;
     private PatientEntity currentPatientEntity;
     private DoctorEntity currentDoctorEntity;
-    
-    public AdministrationModule (StaffEntityControllerRemote staffEntityControllerRemote, DoctorEntityControllerRemote doctorEntityControllerRemote, PatientEntityControllerRemote patientEntityControllerRemote, RegistrationControllerRemote registrationControllerRemote){       
-        this.staffEntityControllerRemote = staffEntityControllerRemote;    
+
+    public AdministrationModule(StaffEntityControllerRemote staffEntityControllerRemote, DoctorEntityControllerRemote doctorEntityControllerRemote, PatientEntityControllerRemote patientEntityControllerRemote, RegistrationControllerRemote registrationControllerRemote) {
+        this.staffEntityControllerRemote = staffEntityControllerRemote;
         this.doctorEntityControllerRemote = doctorEntityControllerRemote;
         this.patientEntityControllerRemote = patientEntityControllerRemote;
         this.registrationControllerRemote = registrationControllerRemote;
     }
-    
+
     public void menuAdministration() {
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
-        
-        while(true) {
+
+        while (true) {
             System.out.println("*** CARS :: Administration Operation ***\n");
             System.out.println("1: Patient Management");
             System.out.println("2: Doctor Management");
             System.out.println("3: Staff Management");
             System.out.println("4: Back\n");
             response = 0;
-            
-            while(response < 1 || response > 4) {
+
+            while (response < 1 || response > 4) {
                 System.out.print("> ");
 
                 response = scanner.nextInt();
 
-                if(response == 1) {
+                if (response == 1) {
                     patientManagement();
-                } else if(response == 2) {
+                } else if (response == 2) {
                     doctorManagement();
-                } else if(response == 3) {
+                } else if (response == 3) {
                     staffManagement();
-                } else if(response == 4) {
+                } else if (response == 4) {
                     break;
                 } else {
-                    System.out.println("Invalid option, please try again!\n");                
+                    System.out.println("Invalid option, please try again!\n");
                 }
             }
-            
-            if(response == 4)
-            {
+
+            if (response == 4) {
                 break;
             }
         }
     }
-    
+
     private void patientManagement() {
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
@@ -158,13 +157,13 @@ public class AdministrationModule {
             }
         }
     }
-    
+
     private void staffManagement() {
-        
+
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
-        
-        while(true) {
+
+        while (true) {
             System.out.println("*** CARS :: Administration Operation :: Staff Management ***\n");
             System.out.println("1: Add Staff");
             System.out.println("2: View Staff Details");
@@ -173,37 +172,36 @@ public class AdministrationModule {
             System.out.println("5: View All Staff");
             System.out.println("6: Back\n");
             response = 0;
-            
-            while(response < 1 || response > 6) {
+
+            while (response < 1 || response > 6) {
                 System.out.print("> ");
 
                 response = scanner.nextInt();
 
-                if(response == 1) {
+                if (response == 1) {
                     addStaff();
-                } else if(response == 2) {
+                } else if (response == 2) {
                     viewStaffDetails();
-                } else if(response == 3) {
+                } else if (response == 3) {
                     updateStaff();
-                } else if(response == 4) {
+                } else if (response == 4) {
                     deleteStaff();
-                } else if(response == 5) {
+                } else if (response == 5) {
                     viewAllStaffs();
-                } else if(response == 6) {
+                } else if (response == 6) {
                     break;
                 } else {
-                    System.out.println("Invalid option, please try again!\n");                
+                    System.out.println("Invalid option, please try again!\n");
                 }
             }
-            
-            if(response == 6)
-            {
+
+            if (response == 6) {
                 break;
             }
         }
     }
-    
-     private void addPatient() {
+
+    private void addPatient() {
         Scanner scanner = new Scanner(System.in);
         PatientEntity newPatientEntity = new PatientEntity();
 
@@ -227,8 +225,8 @@ public class AdministrationModule {
         newPatientEntity.setAddress(scanner.nextLine().trim());
 
         List<PatientEntity> patientEntities = patientEntityControllerRemote.retrieveAllPatients();
-        newPatientEntity.setPatientId((long)patientEntities.size() + 1);
-        
+        newPatientEntity.setPatientId((long) patientEntities.size() + 1);
+
         newPatientEntity = patientEntityControllerRemote.createNewPatient(newPatientEntity);
         System.out.println("New patient created successfully!: " + newPatientEntity.getIdentityNumber() + "\n");
 
@@ -236,7 +234,7 @@ public class AdministrationModule {
 
     private void viewPatientDetails() {
         Scanner scanner = new Scanner(System.in);
-        
+
         System.out.println("*** CARS :: Administration Operation :: View Patient Details ***\n");
         System.out.print("Enter Patient Identity Number> ");
         String idNumber = scanner.nextLine();
@@ -298,11 +296,11 @@ public class AdministrationModule {
 
         System.out.print("Enter Age (blank if no change)> ");
         input = scanner.nextLine().trim();
-        if (input.length()>0) {
+        if (input.length() > 0) {
             patientEntity.setAge(Integer.parseInt(input));
             scanner.nextLine();
         }
- 
+
         System.out.print("Enter Phone (blank if no change)> ");
         input = scanner.nextLine().trim();
         if (input.length() > 0) {
@@ -336,7 +334,7 @@ public class AdministrationModule {
             System.out.println("An error has occurred while retrieving patient: " + ex.getMessage() + "\n");
         }
 
-        System.out.printf("Confirm Delete Patient %s %s (Patient Identity Number:" + patientEntity.getIdentityNumber() +")"+ "(Enter 'Y' to Delete)> ", patientEntity.getFirstName(), patientEntity.getLastName(), patientEntity.getPatientId(), patientEntity.getIdentityNumber());
+        System.out.printf("Confirm Delete Patient %s %s (Patient Identity Number:" + patientEntity.getIdentityNumber() + ")" + "(Enter 'Y' to Delete)> ", patientEntity.getFirstName(), patientEntity.getLastName(), patientEntity.getPatientId(), patientEntity.getIdentityNumber());
 
         input = scanner.nextLine().trim();
 
@@ -383,8 +381,8 @@ public class AdministrationModule {
         newDoctorEntity.setQualifications(scanner.nextLine().trim());
 
         List<DoctorEntity> doctorEntities = doctorEntityControllerRemote.retrieveAllDoctors();
-        newDoctorEntity.setDoctorId((long)doctorEntities.size() + 1);
-        
+        newDoctorEntity.setDoctorId((long) doctorEntities.size() + 1);
+
         newDoctorEntity = doctorEntityControllerRemote.createNewDoctor(newDoctorEntity);
         System.out.println("New doctor created successfully!: " + newDoctorEntity.getDoctorId() + "\n");
     }
@@ -410,53 +408,49 @@ public class AdministrationModule {
     }
 
     private void updateDoctor() {
-        
-    Scanner scanner = new Scanner(System.in);
+
+        Scanner scanner = new Scanner(System.in);
         String input;
         DoctorEntity doctorEntity = null;
-        
+
         System.out.println("*** CARS :: Administration Operation :: Update Doctor ***\n");
         System.out.print("Enter Doctor ID> ");
         Long doctorId = scanner.nextLong();
-        
-         try {
+
+        try {
             doctorEntity = doctorEntityControllerRemote.retrieveDoctorById(doctorId);
             System.out.printf("%8s%20s%20s%20s%20s\n", "Doctor ID", "First Name", "Last Name", "Registration", "Qualification");
             System.out.printf("%8s%20s%20s%20s%20s\n", doctorEntity.getDoctorId().toString(), doctorEntity.getFirstName(), doctorEntity.getLastName(), doctorEntity.getRegistration(), doctorEntity.getQualifications());
         } catch (DoctorNotFoundException ex) {
             System.out.println("An error has occurred while retrieving doctor: " + ex.getMessage() + "\n");
         }
-        
+
         scanner.nextLine();
 
         System.out.print("Enter First Name (blank if no change)> ");
         input = scanner.nextLine().trim();
-        if(input.length() > 0)
-        {
+        if (input.length() > 0) {
             doctorEntity.setFirstName(input);
         }
-                
+
         System.out.print("Enter Last Name (blank if no change)> ");
         input = scanner.nextLine().trim();
-        if(input.length() > 0)
-        {
+        if (input.length() > 0) {
             doctorEntity.setLastName(input);
         }
-       
+
         System.out.print("Enter Registration (blank if no change)> ");
         input = scanner.nextLine().trim();
-        if(input.length() > 0)
-        {
+        if (input.length() > 0) {
             doctorEntity.setUserName(input);
         }
-        
+
         System.out.print("Enter Qualifications (blank if no change)> ");
         input = scanner.nextLine().trim();
-        if(input.length() > 0)
-        {
+        if (input.length() > 0) {
             doctorEntity.setQualifications(input);
         }
-        
+
         doctorEntityControllerRemote.updateDoctor(doctorEntity);
         System.out.println("Doctor updated successfully!\n");
 
@@ -466,39 +460,33 @@ public class AdministrationModule {
         Scanner scanner = new Scanner(System.in);
         String input;
         DoctorEntity doctorEntity = null;
-        
+
         System.out.println("*** CARS :: Administration Operation :: Delete Doctor ***\n");
         System.out.print("Enter Doctor ID> ");
         Long doctorId = scanner.nextLong();
-        
-         try {
+
+        try {
             doctorEntity = doctorEntityControllerRemote.retrieveDoctorById(doctorId);
             System.out.printf("%8s%20s%20s%20s%20s\n", "Doctor ID", "First Name", "Last Name", "Registration", "Qualification");
             System.out.printf("%8s%20s%20s%20s%20s\n", doctorEntity.getDoctorId().toString(), doctorEntity.getFirstName(), doctorEntity.getLastName(), doctorEntity.getRegistration(), doctorEntity.getQualifications());
         } catch (DoctorNotFoundException ex) {
             System.out.println("An error has occurred while retrieving doctor: " + ex.getMessage() + "\n");
         }
-        
+
         scanner.nextLine();
 
         System.out.printf("Confirm Delete Doctor %s %s (Staff ID: %d) (Enter 'Y' to Delete)> ", doctorEntity.getFirstName(), doctorEntity.getLastName(), doctorEntity.getDoctorId());
 
         input = scanner.nextLine().trim();
-        
-        if(input.equals("Y"))
-        {
-            try 
-            {
+
+        if (input.equals("Y")) {
+            try {
                 doctorEntityControllerRemote.deleteDoctor(doctorEntity.getDoctorId());
                 System.out.println("Doctor deleted successfully!\n");
-            } 
-            catch (DoctorNotFoundException ex) 
-            {
+            } catch (DoctorNotFoundException ex) {
                 System.out.println("An error has occurred while deleting doctor: " + ex.getMessage() + "\n");
-            }            
-        }
-        else
-        {
+            }
+        } else {
             System.out.println("Doctor NOT deleted!\n");
         }
 
@@ -506,26 +494,25 @@ public class AdministrationModule {
 
     private void viewAllDoctors() {
         Scanner scanner = new Scanner(System.in);
-        
+
         System.out.println("*** CARS :: Administration Operation :: View All Doctors ***\n");
-        
+
         List<DoctorEntity> doctorEntities = doctorEntityControllerRemote.retrieveAllDoctors();
         System.out.printf("%8s%20s%20s%20s%20s\n", "Staff ID", "First Name", "Last Name", "Registration", "Qualification");
 
-        for(DoctorEntity doctorEntity:doctorEntities)
-        {
+        for (DoctorEntity doctorEntity : doctorEntities) {
             System.out.printf("%8s%20s%20s%20s%20s\n", doctorEntity.getDoctorId().toString(), doctorEntity.getFirstName(), doctorEntity.getLastName(), doctorEntity.getRegistration(), doctorEntity.getQualifications());
         }
-        
+
         System.out.print("Press any key to continue...> ");
         scanner.nextLine();
 
     }
-    
+
     private void addStaff() {
         Scanner scanner = new Scanner(System.in);
         StaffEntity newStaffEntity = new StaffEntity();
-        
+
         System.out.println("*** CARS :: Administration Operation :: Add Staff ***\n");
         System.out.print("Enter First Name> ");
         newStaffEntity.setFirstName(scanner.nextLine().trim());
@@ -535,86 +522,76 @@ public class AdministrationModule {
         newStaffEntity.setUsername(scanner.nextLine().trim());
         System.out.print("Enter Password> ");
         newStaffEntity.setPassword(scanner.nextLine().trim());
-        
+
         List<StaffEntity> staffEntities = staffEntityControllerRemote.retrieveAllStaffs();
-        newStaffEntity.setStaffId((long)staffEntities.size() + 1);
-        
+        newStaffEntity.setStaffId((long) staffEntities.size() + 1);
+
         newStaffEntity = staffEntityControllerRemote.createNewStaff(newStaffEntity);
         System.out.println("New staff created successfully!: " + newStaffEntity.getStaffId() + "\n");
     }
-    
+
     private void viewStaffDetails() {
         Scanner scanner = new Scanner(System.in);
-        
+
         System.out.println("*** CARS :: Administration Operation :: View Staff Details ***\n");
         System.out.print("Enter Staff ID> ");
         Long staffId = scanner.nextLong();
-        
-        try
-        {
+
+        try {
             StaffEntity staffEntity = staffEntityControllerRemote.retrieveStaffByStaffId(staffId);
             System.out.printf("%8s%20s%20s%20s%20s\n", "Staff ID", "First Name", "Last Name", "Username", "Password");
-            System.out.printf("%8s%20s%20s%20s%20s\n", staffEntity.getStaffId().toString(), staffEntity.getFirstName(), staffEntity.getLastName(), staffEntity.getUsername(), staffEntity.getPassword());         
-        }
-        catch(StaffNotFoundException ex)
-        {
+            System.out.printf("%8s%20s%20s%20s%20s\n", staffEntity.getStaffId().toString(), staffEntity.getFirstName(), staffEntity.getLastName(), staffEntity.getUsername(), staffEntity.getPassword());
+        } catch (StaffNotFoundException ex) {
             System.out.println("An error has occurred while retrieving staff: " + ex.getMessage() + "\n");
         }
-        
+
         System.out.print("Press any key to continue...> ");
         scanner.nextLine();
     }
-    
+
     private void updateStaff() {
         Scanner scanner = new Scanner(System.in);
         String input;
         StaffEntity staffEntity = null;
-        
+
         System.out.println("*** CARS :: Administration Operation :: Update Staff ***\n");
         System.out.print("Enter Staff ID> ");
         Long staffId = scanner.nextLong();
-        
-        try
-        {
+
+        try {
             staffEntity = staffEntityControllerRemote.retrieveStaffByStaffId(staffId);
             System.out.printf("%8s%20s%20s%20s%20s\n", "Staff ID", "First Name", "Last Name", "Username", "Password");
-            System.out.printf("%8s%20s%20s%20s%20s\n", staffEntity.getStaffId().toString(), staffEntity.getFirstName(), staffEntity.getLastName(), staffEntity.getUsername(), staffEntity.getPassword());         
-        }
-        catch(StaffNotFoundException ex)
-        {
+            System.out.printf("%8s%20s%20s%20s%20s\n", staffEntity.getStaffId().toString(), staffEntity.getFirstName(), staffEntity.getLastName(), staffEntity.getUsername(), staffEntity.getPassword());
+        } catch (StaffNotFoundException ex) {
             System.out.println("An error has occurred while retrieving staff: " + ex.getMessage() + "\n");
         }
-        
+
         scanner.nextLine();
 
         System.out.print("Enter First Name (blank if no change)> ");
         input = scanner.nextLine().trim();
-        if(input.length() > 0)
-        {
+        if (input.length() > 0) {
             staffEntity.setFirstName(input);
         }
-                
+
         System.out.print("Enter Last Name (blank if no change)> ");
         input = scanner.nextLine().trim();
-        if(input.length() > 0)
-        {
+        if (input.length() > 0) {
             staffEntity.setLastName(input);
         }
-       
+
         System.out.print("Enter Username (blank if no change)> ");
         input = scanner.nextLine().trim();
-        if(input.length() > 0)
-        {
+        if (input.length() > 0) {
             staffEntity.setUsername(input);
         }
-        
+
         System.out.print("Enter Password (blank if no change)> ");
         input = scanner.nextLine().trim();
-        if(input.length() > 0)
-        {
+        if (input.length() > 0) {
             staffEntity.setPassword(input);
         }
-        
+
         staffEntityControllerRemote.updateStaff(staffEntity);
         System.out.println("Staff updated successfully!\n");
     }
@@ -623,59 +600,49 @@ public class AdministrationModule {
         Scanner scanner = new Scanner(System.in);
         String input;
         StaffEntity staffEntity = null;
-        
+
         System.out.println("*** CARS :: Administration Operation :: Delete Staff ***\n");
         System.out.print("Enter Staff ID> ");
         Long staffId = scanner.nextLong();
-        
-        try
-        {
+
+        try {
             staffEntity = staffEntityControllerRemote.retrieveStaffByStaffId(staffId);
             System.out.printf("%8s%20s%20s%20s%20s\n", "Staff ID", "First Name", "Last Name", "Username", "Password");
-            System.out.printf("%8s%20s%20s%20s%20s\n", staffEntity.getStaffId().toString(), staffEntity.getFirstName(), staffEntity.getLastName(), staffEntity.getUsername(), staffEntity.getPassword());         
-        }
-        catch(StaffNotFoundException ex)
-        {
+            System.out.printf("%8s%20s%20s%20s%20s\n", staffEntity.getStaffId().toString(), staffEntity.getFirstName(), staffEntity.getLastName(), staffEntity.getUsername(), staffEntity.getPassword());
+        } catch (StaffNotFoundException ex) {
             System.out.println("An error has occurred while retrieving staff: " + ex.getMessage() + "\n");
         }
-        
+
         scanner.nextLine();
 
         System.out.printf("Confirm Delete Staff %s %s (Staff ID: %d) (Enter 'Y' to Delete)> ", staffEntity.getFirstName(), staffEntity.getLastName(), staffEntity.getStaffId());
 
         input = scanner.nextLine().trim();
-        
-        if(input.equals("Y"))
-        {
-            try 
-            {
+
+        if (input.equals("Y")) {
+            try {
                 staffEntityControllerRemote.deleteStaff(staffEntity.getStaffId());
                 System.out.println("Staff deleted successfully!\n");
-            } 
-            catch (StaffNotFoundException ex) 
-            {
+            } catch (StaffNotFoundException ex) {
                 System.out.println("An error has occurred while deleting staff: " + ex.getMessage() + "\n");
-            }            
-        }
-        else
-        {
+            }
+        } else {
             System.out.println("Staff NOT deleted!\n");
         }
     }
-    
+
     private void viewAllStaffs() {
         Scanner scanner = new Scanner(System.in);
-        
+
         System.out.println("*** CARS :: Administration Operation :: View All Staffs ***\n");
-        
+
         List<StaffEntity> staffEntities = staffEntityControllerRemote.retrieveAllStaffs();
         System.out.printf("%8s%20s%20s%20s%20s\n", "Staff ID", "First Name", "Last Name", "Username", "Password");
 
-        for(StaffEntity staffEntity:staffEntities)
-        {
+        for (StaffEntity staffEntity : staffEntities) {
             System.out.printf("%8s%20s%20s%20s%20s\n", staffEntity.getStaffId().toString(), staffEntity.getFirstName(), staffEntity.getLastName(), staffEntity.getUsername(), staffEntity.getPassword());
         }
-        
+
         System.out.print("Press any key to continue...> ");
         scanner.nextLine();
     }

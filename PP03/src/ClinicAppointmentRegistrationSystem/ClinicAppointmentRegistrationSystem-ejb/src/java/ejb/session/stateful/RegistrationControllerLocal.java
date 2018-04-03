@@ -8,15 +8,13 @@
  */
 package ejb.session.stateful;
 
-import entity.StaffEntity;
-import java.math.BigDecimal;
-import java.util.List;
-import util.exception.InvalidLoginException;
-
 public interface RegistrationControllerLocal {
-    
+
     void clearQueue();
+
     void addQueue();
+
     Integer getQueue();
+
     void setQueue(Integer queue);
 }

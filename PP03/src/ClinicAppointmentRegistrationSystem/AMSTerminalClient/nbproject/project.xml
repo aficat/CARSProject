@@ -20,14 +20,6 @@
         </data>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
             <reference>
-                <foreign-project>ClinicAppointmentRegistrationSystem-ejb</foreign-project>
-                <artifact-type>jar</artifact-type>
-                <script>build.xml</script>
-                <target>dist</target>
-                <clean-target>clean</clean-target>
-                <id>dist</id>
-            </reference>
-            <reference>
                 <foreign-project>ClinicAppointmentRegistrationSystemLibrary</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>build.xml</script>

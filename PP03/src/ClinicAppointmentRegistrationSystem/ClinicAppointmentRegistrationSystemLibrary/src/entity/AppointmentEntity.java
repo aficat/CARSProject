@@ -9,9 +9,6 @@
 package entity;
 
 import java.io.Serializable;
-import java.sql.Time;
-import java.util.ArrayList;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.util.Date;
 import javax.persistence.GeneratedValue;

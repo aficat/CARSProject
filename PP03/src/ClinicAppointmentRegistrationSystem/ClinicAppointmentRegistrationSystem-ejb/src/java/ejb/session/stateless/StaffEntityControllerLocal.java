@@ -6,7 +6,6 @@
  * - Nurul Afiqah Binte Rashid , A0160361R
  * 
  */
-
 package ejb.session.stateless;
 
 import entity.StaffEntity;
@@ -17,17 +16,16 @@ import util.exception.StaffNotFoundException;
 public interface StaffEntityControllerLocal {
 
     StaffEntity createNewStaff(StaffEntity newStaffEntity);
-    
+
     List<StaffEntity> retrieveAllStaffs();
-    
+
     StaffEntity retrieveStaffByStaffId(Long staffId) throws StaffNotFoundException;
-    
+
     StaffEntity retrieveStaffByUsername(String username) throws StaffNotFoundException;
 
     StaffEntity staffLogin(String username, String password) throws InvalidLoginException;
 
     void updateStaff(StaffEntity staffEntity);
-    
+
     void deleteStaff(Long staffId) throws StaffNotFoundException;
 }
-

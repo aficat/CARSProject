@@ -6,7 +6,6 @@
  * - Nurul Afiqah Binte Rashid , A0160361R
  * 
  */
-
 package ejb.session.stateless;
 
 import entity.StaffEntity;
@@ -31,103 +30,69 @@ public class StaffEntityController implements StaffEntityControllerLocal, StaffE
     @PersistenceContext(unitName = "ClinicAppointmentRegistrationSystem-ejbPU")
     private EntityManager entityManager;
 
-    
-    
     public StaffEntityController() {
     }
 
-    
-      @Override
-    public StaffEntity createNewStaff(StaffEntity newStaffEntity)
-    {
+    @Override
+    public StaffEntity createNewStaff(StaffEntity newStaffEntity) {
         entityManager.persist(newStaffEntity);
         entityManager.flush();
-        
+
         return newStaffEntity;
     }
-    
-       
-    
+
     @Override
-    public List<StaffEntity> retrieveAllStaffs()
-    {
+    public List<StaffEntity> retrieveAllStaffs() {
         Query query = entityManager.createQuery("SELECT s FROM StaffEntity s");
-        
+
         return query.getResultList();
     }
-    
-    
-    
+
     @Override
-    public StaffEntity retrieveStaffByStaffId(Long staffId) throws StaffNotFoundException
-    {
+    public StaffEntity retrieveStaffByStaffId(Long staffId) throws StaffNotFoundException {
         StaffEntity staffEntity = entityManager.find(StaffEntity.class, staffId);
-        
-        if(staffEntity != null)
-        {
+
+        if (staffEntity != null) {
             return staffEntity;
-        }
-        else
-        {
+        } else {
             throw new StaffNotFoundException("Staff ID " + staffId + " does not exist!");
         }
     }
-    
-    
-    
+
     @Override
-    public StaffEntity retrieveStaffByUsername(String username) throws StaffNotFoundException
-    {
+    public StaffEntity retrieveStaffByUsername(String username) throws StaffNotFoundException {
         Query query = entityManager.createQuery("SELECT s FROM StaffEntity s WHERE s.username = :inUsername");
         query.setParameter("inUsername", username);
-        
-        try
-        {
-            return (StaffEntity)query.getSingleResult();
-        }
-        catch(NoResultException | NonUniqueResultException ex)
-        {
+
+        try {
+            return (StaffEntity) query.getSingleResult();
+        } catch (NoResultException | NonUniqueResultException ex) {
             throw new StaffNotFoundException("Staff Username " + username + " does not exist!");
         }
     }
-    
-    
-    
+
     @Override
-    public StaffEntity staffLogin(String username, String password) throws InvalidLoginException
-    {
-        try
-        {
+    public StaffEntity staffLogin(String username, String password) throws InvalidLoginException {
+        try {
             StaffEntity staffEntity = retrieveStaffByUsername(username);
-            
-            if(staffEntity.getPassword().equals(password))
-            {
+
+            if (staffEntity.getPassword().equals(password)) {
                 return staffEntity;
-            }
-            else
-            {
+            } else {
                 throw new InvalidLoginException("Username does not exist or invalid password!");
             }
-        }
-        catch(StaffNotFoundException ex)
-        {
+        } catch (StaffNotFoundException ex) {
             throw new InvalidLoginException("Username does not exist or invalid password!");
         }
     }
-    
-    
-    
+
     @Override
-    public void updateStaff(StaffEntity staffEntity)
-    {
+    public void updateStaff(StaffEntity staffEntity) {
         entityManager.merge(staffEntity);
     }
-    
-    
-    
+
     @Override
-    public void deleteStaff(Long staffId) throws StaffNotFoundException
-    {
+    public void deleteStaff(Long staffId) throws StaffNotFoundException {
         StaffEntity staffEntityToRemove = retrieveStaffByStaffId(staffId);
         entityManager.remove(staffEntityToRemove);
     }

@@ -11,7 +11,6 @@ package ejb.session.stateless;
 import entity.ConsultationEntity;
 import entity.DoctorEntity;
 import entity.PatientEntity;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,12 +18,9 @@ import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.exception.DoctorAddConsultationException;
-import util.exception.DoctorNotFoundException;
 import util.exception.PatientAddConsultationException;
 
 @Stateless
@@ -32,22 +28,20 @@ import util.exception.PatientAddConsultationException;
 @Remote(ConsultationEntityControllerRemote.class)
 
 public class ConsultationEntityController implements ConsultationEntityControllerLocal, ConsultationEntityControllerRemote {
-    
+
     @PersistenceContext(unitName = "ClinicAppointmentRegistrationSystem-ejbPU")
     private EntityManager entityManager;
-    
-    public ConsultationEntityController()
-    {
+
+    public ConsultationEntityController() {
     }
 
-   @Override
+    @Override
     public void createConsultation(ConsultationEntity newConsultationEntity, String identityNumber, Long doctorId)// throws PatientAddConsultationException
     {
         entityManager.persist(newConsultationEntity);
         PatientEntity patient = entityManager.find(PatientEntity.class, identityNumber);
-        
-        if(patient != null)
-        {
+
+        if (patient != null) {
             newConsultationEntity.setPatient(patient);
             try {
                 patient.addConsultation(newConsultationEntity);
@@ -55,11 +49,10 @@ public class ConsultationEntityController implements ConsultationEntityControlle
                 Logger.getLogger(ConsultationEntityController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         DoctorEntity doctor = entityManager.find(DoctorEntity.class, doctorId);
-        
-        if(doctor != null)
-        {
+
+        if (doctor != null) {
             newConsultationEntity.setDoctor(doctor);
             try {
                 doctor.addConsultation(newConsultationEntity);
@@ -68,11 +61,10 @@ public class ConsultationEntityController implements ConsultationEntityControlle
             }
         }
     }
-    
+
     @Override
-    public List<ConsultationEntity> retrieveAllConsultations()
-    {
+    public List<ConsultationEntity> retrieveAllConsultations() {
         Query query = entityManager.createQuery("SELECT c FROM ConsultationEntity c");
         return query.getResultList();
-    }   
+    }
 }

@@ -6,7 +6,6 @@
  * - Nurul Afiqah Binte Rashid , A0160361R
  * 
  */
-
 package ejb.session.stateless;
 
 import entity.DoctorEntity;
@@ -15,8 +14,6 @@ import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.exception.DoctorNotFoundException;
@@ -30,56 +27,42 @@ public class DoctorEntityController implements DoctorEntityControllerLocal, Doct
     @PersistenceContext(unitName = "ClinicAppointmentRegistrationSystem-ejbPU")
     private EntityManager entityManager;
 
-    
-    
     public DoctorEntityController() {
     }
 
-    
     @Override
-    public DoctorEntity createNewDoctor(DoctorEntity newDoctorEntity)
-    {
+    public DoctorEntity createNewDoctor(DoctorEntity newDoctorEntity) {
         entityManager.persist(newDoctorEntity);
         entityManager.flush();
-        
+
         return newDoctorEntity;
     }
-    
+
     @Override
-    public List<DoctorEntity> retrieveAllDoctors()
-    {
+    public List<DoctorEntity> retrieveAllDoctors() {
         Query query = entityManager.createQuery("SELECT d FROM DoctorEntity d");
-        
+
         return query.getResultList();
     }
-    
-    
+
     @Override
-    public DoctorEntity retrieveDoctorById(Long id) throws DoctorNotFoundException
-    {
+    public DoctorEntity retrieveDoctorById(Long id) throws DoctorNotFoundException {
         DoctorEntity doctorEntity = entityManager.find(DoctorEntity.class, id);
-        
-        if(doctorEntity != null)
-        {
+
+        if (doctorEntity != null) {
             return doctorEntity;
-        }
-        else
-        {
+        } else {
             throw new DoctorNotFoundException("Doctor ID " + id + " does not exist!");
         }
     }
-    
+
     @Override
-    public void updateDoctor(DoctorEntity doctorEntity)
-    {
+    public void updateDoctor(DoctorEntity doctorEntity) {
         entityManager.merge(doctorEntity);
     }
-    
-    
-    
+
     @Override
-    public void deleteDoctor(Long doctorId) throws DoctorNotFoundException
-    {
+    public void deleteDoctor(Long doctorId) throws DoctorNotFoundException {
         DoctorEntity doctorEntityToRemove = retrieveDoctorById(doctorId);
         entityManager.remove(doctorEntityToRemove);
     }

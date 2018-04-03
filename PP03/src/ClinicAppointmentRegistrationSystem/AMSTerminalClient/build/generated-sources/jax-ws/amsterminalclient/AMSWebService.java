@@ -29,79 +29,6 @@ public interface AMSWebService {
     /**
      * 
      * @param identityNumber
-     * @param appointmentId
-     * @param securityCode
-     * @throws InvalidLoginException_Exception
-     */
-    @WebMethod
-    @RequestWrapper(localName = "cancelAppointment", targetNamespace = "http://ws.session.ejb/", className = "amsterminalclient.CancelAppointment")
-    @ResponseWrapper(localName = "cancelAppointmentResponse", targetNamespace = "http://ws.session.ejb/", className = "amsterminalclient.CancelAppointmentResponse")
-    @Action(input = "http://ws.session.ejb/AMSWebService/cancelAppointmentRequest", output = "http://ws.session.ejb/AMSWebService/cancelAppointmentResponse", fault = {
-        @FaultAction(className = InvalidLoginException_Exception.class, value = "http://ws.session.ejb/AMSWebService/cancelAppointment/Fault/InvalidLoginException")
-    })
-    public void cancelAppointment(
-        @WebParam(name = "appointmentId", targetNamespace = "")
-        long appointmentId,
-        @WebParam(name = "identityNumber", targetNamespace = "")
-        String identityNumber,
-        @WebParam(name = "securityCode", targetNamespace = "")
-        String securityCode)
-        throws InvalidLoginException_Exception
-    ;
-
-    /**
-     * 
-     * @param identityNumber
-     * @param doctorId
-     * @param securityCode
-     * @param inputTime
-     * @param inputDate
-     * @return
-     *     returns amsterminalclient.AppointmentEntity
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "addAppointment", targetNamespace = "http://ws.session.ejb/", className = "amsterminalclient.AddAppointment")
-    @ResponseWrapper(localName = "addAppointmentResponse", targetNamespace = "http://ws.session.ejb/", className = "amsterminalclient.AddAppointmentResponse")
-    @Action(input = "http://ws.session.ejb/AMSWebService/addAppointmentRequest", output = "http://ws.session.ejb/AMSWebService/addAppointmentResponse")
-    public AppointmentEntity addAppointment(
-        @WebParam(name = "identityNumber", targetNamespace = "")
-        String identityNumber,
-        @WebParam(name = "securityCode", targetNamespace = "")
-        String securityCode,
-        @WebParam(name = "inputTime", targetNamespace = "")
-        String inputTime,
-        @WebParam(name = "inputDate", targetNamespace = "")
-        String inputDate,
-        @WebParam(name = "doctorId", targetNamespace = "")
-        long doctorId);
-
-    /**
-     * 
-     * @param identityNumber
-     * @param securityCode
-     * @return
-     *     returns java.lang.String
-     * @throws InvalidLoginException_Exception
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "doLogin", targetNamespace = "http://ws.session.ejb/", className = "amsterminalclient.DoLogin")
-    @ResponseWrapper(localName = "doLoginResponse", targetNamespace = "http://ws.session.ejb/", className = "amsterminalclient.DoLoginResponse")
-    @Action(input = "http://ws.session.ejb/AMSWebService/doLoginRequest", output = "http://ws.session.ejb/AMSWebService/doLoginResponse", fault = {
-        @FaultAction(className = InvalidLoginException_Exception.class, value = "http://ws.session.ejb/AMSWebService/doLogin/Fault/InvalidLoginException")
-    })
-    public String doLogin(
-        @WebParam(name = "identityNumber", targetNamespace = "")
-        String identityNumber,
-        @WebParam(name = "securityCode", targetNamespace = "")
-        String securityCode)
-        throws InvalidLoginException_Exception
-    ;
-
-    /**
-     * 
-     * @param identityNumber
      * @param securityCode
      * @return
      *     returns java.util.List<amsterminalclient.AppointmentEntity>
@@ -157,5 +84,81 @@ public interface AMSWebService {
         String phone,
         @WebParam(name = "address", targetNamespace = "")
         String address);
+
+    /**
+     * 
+     * @param identityNumber
+     * @param securityCode
+     * @return
+     *     returns java.lang.String
+     * @throws InvalidLoginException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "doLogin", targetNamespace = "http://ws.session.ejb/", className = "amsterminalclient.DoLogin")
+    @ResponseWrapper(localName = "doLoginResponse", targetNamespace = "http://ws.session.ejb/", className = "amsterminalclient.DoLoginResponse")
+    @Action(input = "http://ws.session.ejb/AMSWebService/doLoginRequest", output = "http://ws.session.ejb/AMSWebService/doLoginResponse", fault = {
+        @FaultAction(className = InvalidLoginException_Exception.class, value = "http://ws.session.ejb/AMSWebService/doLogin/Fault/InvalidLoginException")
+    })
+    public String doLogin(
+        @WebParam(name = "identityNumber", targetNamespace = "")
+        String identityNumber,
+        @WebParam(name = "securityCode", targetNamespace = "")
+        String securityCode)
+        throws InvalidLoginException_Exception
+    ;
+
+    /**
+     * 
+     * @param identityNumber
+     * @param doctorId
+     * @param securityCode
+     * @param inputTime
+     * @param inputDate
+     * @return
+     *     returns amsterminalclient.AppointmentEntity
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "addAppointment", targetNamespace = "http://ws.session.ejb/", className = "amsterminalclient.AddAppointment")
+    @ResponseWrapper(localName = "addAppointmentResponse", targetNamespace = "http://ws.session.ejb/", className = "amsterminalclient.AddAppointmentResponse")
+    @Action(input = "http://ws.session.ejb/AMSWebService/addAppointmentRequest", output = "http://ws.session.ejb/AMSWebService/addAppointmentResponse")
+    public AppointmentEntity addAppointment(
+        @WebParam(name = "identityNumber", targetNamespace = "")
+        String identityNumber,
+        @WebParam(name = "securityCode", targetNamespace = "")
+        String securityCode,
+        @WebParam(name = "doctorId", targetNamespace = "")
+        long doctorId,
+        @WebParam(name = "inputDate", targetNamespace = "")
+        String inputDate,
+        @WebParam(name = "inputTime", targetNamespace = "")
+        String inputTime);
+
+    /**
+     * 
+     * @param identityNumber
+     * @param appointmentId
+     * @param securityCode
+     * @return
+     *     returns java.lang.String
+     * @throws InvalidLoginException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "cancelAppointment", targetNamespace = "http://ws.session.ejb/", className = "amsterminalclient.CancelAppointment")
+    @ResponseWrapper(localName = "cancelAppointmentResponse", targetNamespace = "http://ws.session.ejb/", className = "amsterminalclient.CancelAppointmentResponse")
+    @Action(input = "http://ws.session.ejb/AMSWebService/cancelAppointmentRequest", output = "http://ws.session.ejb/AMSWebService/cancelAppointmentResponse", fault = {
+        @FaultAction(className = InvalidLoginException_Exception.class, value = "http://ws.session.ejb/AMSWebService/cancelAppointment/Fault/InvalidLoginException")
+    })
+    public String cancelAppointment(
+        @WebParam(name = "appointmentId", targetNamespace = "")
+        long appointmentId,
+        @WebParam(name = "identityNumber", targetNamespace = "")
+        String identityNumber,
+        @WebParam(name = "securityCode", targetNamespace = "")
+        String securityCode)
+        throws InvalidLoginException_Exception
+    ;
 
 }

@@ -9,14 +9,12 @@
 package ejb.session.stateless;
 
 import entity.ConsultationEntity;
-import java.util.Date;
 import java.util.List;
-import util.exception.DoctorAddConsultationException;
-import util.exception.PatientAddConsultationException;
 
 public interface ConsultationEntityControllerRemote {
-    
+
     void createConsultation(ConsultationEntity newConsultationEntity, String identityNumber, Long doctorId); //throws PatientAddConsultationException;
-List<ConsultationEntity> retrieveAllConsultations();
+
+    List<ConsultationEntity> retrieveAllConsultations();
 // void createConsultationInDoctor(ConsultationEntity newConsultationEntity, Long doctorId); // throws DoctorAddConsultationException;
 }

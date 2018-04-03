@@ -10,7 +10,6 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.sql.Time;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

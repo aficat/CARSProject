@@ -6,9 +6,9 @@
 
 <xs:element name="addAppointmentResponse" type="tns:addAppointmentResponse"/>
 
-<xs:element name="cancelAppointments" type="tns:cancelAppointments"/>
+<xs:element name="cancelAppointment" type="tns:cancelAppointment"/>
 
-<xs:element name="cancelAppointmentsResponse" type="tns:cancelAppointmentsResponse"/>
+<xs:element name="cancelAppointmentResponse" type="tns:cancelAppointmentResponse"/>
 
 <xs:element name="doLogin" type="tns:doLogin"/>
 
@@ -87,20 +87,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="cancelAppointments">
-<xs:sequence>
-<xs:element name="appointmentId" type="xs:long"/>
-<xs:element name="identityNumber" type="xs:string" minOccurs="0"/>
-<xs:element name="securityCode" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="cancelAppointmentsResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="addAppointment">
 <xs:sequence>
 <xs:element name="identityNumber" type="xs:string" minOccurs="0"/>
@@ -117,6 +103,18 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="cancelAppointment">
+<xs:sequence>
+<xs:element name="appointmentId" type="xs:long"/>
+<xs:element name="identityNumber" type="xs:string" minOccurs="0"/>
+<xs:element name="securityCode" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="cancelAppointmentResponse">
+<xs:sequence/>
+</xs:complexType>
+
 <xs:complexType name="doLogin">
 <xs:sequence>
 <xs:element name="identityNumber" type="xs:string" minOccurs="0"/>
@@ -125,7 +123,9 @@
 </xs:complexType>
 
 <xs:complexType name="doLoginResponse">
-<xs:sequence/>
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="registerPatient">

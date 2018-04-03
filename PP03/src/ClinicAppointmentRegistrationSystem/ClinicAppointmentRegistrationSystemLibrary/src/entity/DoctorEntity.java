@@ -21,8 +21,6 @@ import javax.persistence.OneToMany;
 import util.exception.DoctorAddAppointmentException;
 import util.exception.DoctorAddConsultationException;
 import util.exception.DoctorRemoveAppointmentException;
-import util.exception.PatientAddAppointmentException;
-import util.exception.PatientRemoveAppointmentException;
 
 @Entity
 public class DoctorEntity implements Serializable {

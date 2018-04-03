@@ -17,10 +17,10 @@ public interface DoctorEntityControllerRemote {
     DoctorEntity createNewDoctor(DoctorEntity newDoctorEntity);
 
     DoctorEntity retrieveDoctorById(Long id) throws DoctorNotFoundException;
-    
+
     List<DoctorEntity> retrieveAllDoctors();
-    
+
     void updateDoctor(DoctorEntity doctorEntity);
-    
+
     void deleteDoctor(Long doctorId) throws DoctorNotFoundException;
 }

@@ -4,6 +4,15 @@
 <xsd:import namespace="http://ws.session.ejb/" schemaLocation="http://localhost:8080/AMSWebService/AMSWebService?xsd=1"/>
 </xsd:schema>
 </types>
+<message name="cancelAppointment">
+<part name="parameters" element="tns:cancelAppointment"/>
+</message>
+<message name="cancelAppointmentResponse">
+<part name="parameters" element="tns:cancelAppointmentResponse"/>
+</message>
+<message name="InvalidLoginException">
+<part name="fault" element="tns:InvalidLoginException"/>
+</message>
 <message name="addAppointment">
 <part name="parameters" element="tns:addAppointment"/>
 </message>
@@ -15,9 +24,6 @@
 </message>
 <message name="doLoginResponse">
 <part name="parameters" element="tns:doLoginResponse"/>
-</message>
-<message name="InvalidLoginException">
-<part name="fault" element="tns:InvalidLoginException"/>
 </message>
 <message name="viewAppointments">
 <part name="parameters" element="tns:viewAppointments"/>
@@ -31,13 +37,12 @@
 <message name="registerPatientResponse">
 <part name="parameters" element="tns:registerPatientResponse"/>
 </message>
-<message name="cancelAppointments">
-<part name="parameters" element="tns:cancelAppointments"/>
-</message>
-<message name="cancelAppointmentsResponse">
-<part name="parameters" element="tns:cancelAppointmentsResponse"/>
-</message>
 <portType name="AMSWebService">
+<operation name="cancelAppointment">
+<input wsam:Action="http://ws.session.ejb/AMSWebService/cancelAppointmentRequest" message="tns:cancelAppointment"/>
+<output wsam:Action="http://ws.session.ejb/AMSWebService/cancelAppointmentResponse" message="tns:cancelAppointmentResponse"/>
+<fault message="tns:InvalidLoginException" name="InvalidLoginException" wsam:Action="http://ws.session.ejb/AMSWebService/cancelAppointment/Fault/InvalidLoginException"/>
+</operation>
 <operation name="addAppointment">
 <input wsam:Action="http://ws.session.ejb/AMSWebService/addAppointmentRequest" message="tns:addAppointment"/>
 <output wsam:Action="http://ws.session.ejb/AMSWebService/addAppointmentResponse" message="tns:addAppointmentResponse"/>
@@ -56,14 +61,21 @@
 <input wsam:Action="http://ws.session.ejb/AMSWebService/registerPatientRequest" message="tns:registerPatient"/>
 <output wsam:Action="http://ws.session.ejb/AMSWebService/registerPatientResponse" message="tns:registerPatientResponse"/>
 </operation>
-<operation name="cancelAppointments">
-<input wsam:Action="http://ws.session.ejb/AMSWebService/cancelAppointmentsRequest" message="tns:cancelAppointments"/>
-<output wsam:Action="http://ws.session.ejb/AMSWebService/cancelAppointmentsResponse" message="tns:cancelAppointmentsResponse"/>
-<fault message="tns:InvalidLoginException" name="InvalidLoginException" wsam:Action="http://ws.session.ejb/AMSWebService/cancelAppointments/Fault/InvalidLoginException"/>
-</operation>
 </portType>
 <binding name="AMSWebServicePortBinding" type="tns:AMSWebService">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+<operation name="cancelAppointment">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="InvalidLoginException">
+<soap:fault name="InvalidLoginException" use="literal"/>
+</fault>
+</operation>
 <operation name="addAppointment">
 <soap:operation soapAction=""/>
 <input>
@@ -105,18 +117,6 @@
 <output>
 <soap:body use="literal"/>
 </output>
-</operation>
-<operation name="cancelAppointments">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-<fault name="InvalidLoginException">
-<soap:fault name="InvalidLoginException" use="literal"/>
-</fault>
 </operation>
 </binding>
 <service name="AMSWebService">

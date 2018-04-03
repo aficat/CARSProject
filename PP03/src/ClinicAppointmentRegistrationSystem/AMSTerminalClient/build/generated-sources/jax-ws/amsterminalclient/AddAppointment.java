@@ -18,9 +18,9 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence&gt;
  *         &lt;element name="identityNumber" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="securityCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;element name="inputTime" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;element name="inputDate" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="doctorId" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="inputDate" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="inputTime" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -33,17 +33,17 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "addAppointment", propOrder = {
     "identityNumber",
     "securityCode",
-    "inputTime",
+    "doctorId",
     "inputDate",
-    "doctorId"
+    "inputTime"
 })
 public class AddAppointment {
 
     protected String identityNumber;
     protected String securityCode;
-    protected String inputTime;
-    protected String inputDate;
     protected long doctorId;
+    protected String inputDate;
+    protected String inputTime;
 
     /**
      * Gets the value of the identityNumber property.
@@ -94,27 +94,19 @@ public class AddAppointment {
     }
 
     /**
-     * Gets the value of the inputTime property.
+     * Gets the value of the doctorId property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
-    public String getInputTime() {
-        return inputTime;
+    public long getDoctorId() {
+        return doctorId;
     }
 
     /**
-     * Sets the value of the inputTime property.
+     * Sets the value of the doctorId property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
-    public void setInputTime(String value) {
-        this.inputTime = value;
+    public void setDoctorId(long value) {
+        this.doctorId = value;
     }
 
     /**
@@ -142,19 +134,27 @@ public class AddAppointment {
     }
 
     /**
-     * Gets the value of the doctorId property.
+     * Gets the value of the inputTime property.
      * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public long getDoctorId() {
-        return doctorId;
+    public String getInputTime() {
+        return inputTime;
     }
 
     /**
-     * Sets the value of the doctorId property.
+     * Sets the value of the inputTime property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setDoctorId(long value) {
-        this.doctorId = value;
+    public void setInputTime(String value) {
+        this.inputTime = value;
     }
 
 }

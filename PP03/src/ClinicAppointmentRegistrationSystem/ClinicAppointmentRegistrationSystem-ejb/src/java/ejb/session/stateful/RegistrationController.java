@@ -8,10 +8,6 @@
  */
 package ejb.session.stateful;
 
-
-import ejb.session.stateless.ConsultationEntityControllerLocal;
-import ejb.session.stateless.DoctorEntityControllerLocal;
-import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateful;
@@ -31,24 +27,22 @@ public class RegistrationController implements RegistrationControllerLocal, Regi
         // entityManager = new EntityManager();
         initialiseState();
     }
-    
-    
+
     private void initialiseState() {
         // reset queue number and consultation list
         queue = 1;
     }
-    
-    
+
     // clear patient contents/ consultation contents
     @Override
     public void clearQueue() {
         initialiseState();
     }
-    
+
     public void addQueue() {
         this.queue++;
     }
-    
+
     @Override
     public Integer getQueue() {
         return queue;

@@ -22,29 +22,26 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.exception.AppointmentNotFoundException;
 import util.exception.DoctorAddAppointmentException;
-import util.exception.DoctorNotFoundException;
 import util.exception.PatientAddAppointmentException;
 
 @Stateless
 @Local(AppointmentEntityControllerLocal.class)
 @Remote(AppointmentEntityControllerRemote.class)
 
-public class AppointmentEntityController implements AppointmentEntityControllerLocal, AppointmentEntityControllerRemote{
+public class AppointmentEntityController implements AppointmentEntityControllerLocal, AppointmentEntityControllerRemote {
+
     @PersistenceContext(unitName = "ClinicAppointmentRegistrationSystem-ejbPU")
     private EntityManager entityManager;
-    
-    public AppointmentEntityController()
-    {
+
+    public AppointmentEntityController() {
     }
 
-   @Override
-    public void createAppointment(AppointmentEntity newAppointmentEntity, String identityNumber, Long doctorId)
-    {
+    @Override
+    public void createAppointment(AppointmentEntity newAppointmentEntity, String identityNumber, Long doctorId) {
         entityManager.persist(newAppointmentEntity);
         PatientEntity patient = entityManager.find(PatientEntity.class, identityNumber);
-        
-        if(patient != null)
-        {
+
+        if (patient != null) {
             newAppointmentEntity.setPatient(patient);
             try {
                 patient.addAppointment(newAppointmentEntity);
@@ -52,11 +49,10 @@ public class AppointmentEntityController implements AppointmentEntityControllerL
                 Logger.getLogger(AppointmentEntityController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         DoctorEntity doctor = entityManager.find(DoctorEntity.class, doctorId);
-        
-        if(doctor != null)
-        {
+
+        if (doctor != null) {
             newAppointmentEntity.setDoctor(doctor);
             try {
                 doctor.addAppointment(newAppointmentEntity);
@@ -65,17 +61,16 @@ public class AppointmentEntityController implements AppointmentEntityControllerL
             }
         }
     }
-    
+
     @Override
-    public List<AppointmentEntity> retrieveAllAppointments()
-    {
+    public List<AppointmentEntity> retrieveAllAppointments() {
         Query query = entityManager.createQuery("SELECT a FROM AppointmentEntity a");
         return query.getResultList();
-    }   
-    
+    }
+
     @Override
     public void cancelAppointment(Long appointmentId) throws AppointmentNotFoundException {
-        
+
         AppointmentEntity appointmentEntity = retrieveAppointmentByAppointmentId(appointmentId);
         entityManager.remove(appointmentEntity);
         //appointmentEntities.setDoctorEntity(null);

@@ -19,27 +19,27 @@ import javax.ejb.EJB;
 import util.exception.AppointmentNotFoundException;
 
 public class Main {
-    
+
     @EJB
     private static StaffEntityControllerRemote staffEntityControllerRemote;
-    
+
     @EJB
     private static DoctorEntityControllerRemote doctorEntityControllerRemote;
-    
+
     @EJB
     private static PatientEntityControllerRemote patientEntityControllerRemote;
-    
+
     @EJB
     private static RegistrationControllerRemote registrationControllerRemote;
-    
+
     @EJB
     private static ConsultationEntityControllerRemote consultationEntityControllerRemote;
-    
-    @EJB 
+
+    @EJB
     private static AppointmentEntityControllerRemote appointmentEntityControllerRemote;
-  
+
     public static void main(String[] args) throws ParseException, AppointmentNotFoundException {
-        
+
         MainApp mainApp = new MainApp(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote, consultationEntityControllerRemote, appointmentEntityControllerRemote);
         mainApp.runApp();
     }

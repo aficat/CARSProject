@@ -15,7 +15,6 @@ import ejb.session.stateless.DoctorEntityControllerRemote;
 import ejb.session.stateless.PatientEntityControllerRemote;
 import ejb.session.stateless.StaffEntityControllerRemote;
 import entity.PatientEntity;
-import entity.StaffEntity;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Scanner;
@@ -38,8 +37,8 @@ public class MainApp {
     public MainApp() {
     }
 
-    MainApp(StaffEntityControllerRemote staffEntityControllerRemote, DoctorEntityControllerRemote doctorEntityControllerRemote, PatientEntityControllerRemote patientEntityControllerRemote, RegistrationControllerRemote registrationControllerRemote, ConsultationEntityControllerRemote consultationEntityControllerRemote, AppointmentEntityControllerRemote appointmentEntityControllerRemote){ 
-        this.staffEntityControllerRemote = staffEntityControllerRemote;    
+    MainApp(StaffEntityControllerRemote staffEntityControllerRemote, DoctorEntityControllerRemote doctorEntityControllerRemote, PatientEntityControllerRemote patientEntityControllerRemote, RegistrationControllerRemote registrationControllerRemote, ConsultationEntityControllerRemote consultationEntityControllerRemote, AppointmentEntityControllerRemote appointmentEntityControllerRemote) {
+        this.staffEntityControllerRemote = staffEntityControllerRemote;
         this.doctorEntityControllerRemote = doctorEntityControllerRemote;
         this.patientEntityControllerRemote = patientEntityControllerRemote;
         this.registrationControllerRemote = registrationControllerRemote;
@@ -64,17 +63,16 @@ public class MainApp {
 
                 response = scanner.nextInt();
 
-            if (response == 1){
-                registerPatient();
-            } else if (response == 2) {
+                if (response == 1) {
+                    registerPatient();
+                } else if (response == 2) {
 
                     try {
                         doLogin();
                         registrationModule = new RegistrationModule(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote, consultationEntityControllerRemote, appointmentEntityControllerRemote);
                         appointmentModule = new AppointmentModule(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote, appointmentEntityControllerRemote);
                         menuMain();
-                    } 
-                    catch (InvalidLoginException ex) {
+                    } catch (InvalidLoginException ex) {
                     }
                 } else if (response == 3) {
                     break;
@@ -110,63 +108,60 @@ public class MainApp {
                 throw new InvalidLoginException();
 
             }
-        }
-         else
-        {
+        } else {
             System.out.println("Invalid login!");
         }
     }
-    
+
     // get details and register patient into database
-    private void registerPatient()
-    {
+    private void registerPatient() {
         Scanner scanner = new Scanner(System.in);
         PatientEntity newPatient = new PatientEntity();
-        
+
         System.out.println("*** Self-Service Kiosk :: Register ***\n");
         List<PatientEntity> patients = patientEntityControllerRemote.retrieveAllPatients();
-        
+
         System.out.print("Enter Identity Number> ");
         String identityNumber = scanner.nextLine().trim();
-        for (PatientEntity patient:patients) {
+        for (PatientEntity patient : patients) {
             if (patient.getIdentityNumber().equals(identityNumber)) {
                 System.out.println("Patient is already created.");
-            break;
+                break;
             } else {
                 newPatient.setIdentityNumber(identityNumber);
-        System.out.print("Enter Security Code> ");
-        newPatient.setSecurityCode(scanner.nextLine().trim());
-        System.out.print("Enter First Name> ");
-        newPatient.setFirstName(scanner.nextLine().trim());
-        System.out.print("Enter Last Name> ");
-        newPatient.setLastName(scanner.nextLine().trim());
-        System.out.print("Enter Gender> ");
-        newPatient.setGender(scanner.nextLine().trim());
-        System.out.print("Enter Age> ");
-        newPatient.setAge(scanner.nextInt());
-        scanner.nextLine();
-        System.out.print("Enter Phone> ");
-        newPatient.setPhone(scanner.nextLine().trim());
-        System.out.print("Enter Address> ");
-        newPatient.setAddress(scanner.nextLine().trim());
-        
-        List<PatientEntity> patientEntities = patientEntityControllerRemote.retrieveAllPatients();
-        newPatient.setPatientId((long)patientEntities.size() + 1);
-        
-        patientEntityControllerRemote.createNewPatient(newPatient);
-        System.out.println("You has been registered successfully!\n");
-        
+                System.out.print("Enter Security Code> ");
+                newPatient.setSecurityCode(scanner.nextLine().trim());
+                System.out.print("Enter First Name> ");
+                newPatient.setFirstName(scanner.nextLine().trim());
+                System.out.print("Enter Last Name> ");
+                newPatient.setLastName(scanner.nextLine().trim());
+                System.out.print("Enter Gender> ");
+                newPatient.setGender(scanner.nextLine().trim());
+                System.out.print("Enter Age> ");
+                newPatient.setAge(scanner.nextInt());
+                scanner.nextLine();
+                System.out.print("Enter Phone> ");
+                newPatient.setPhone(scanner.nextLine().trim());
+                System.out.print("Enter Address> ");
+                newPatient.setAddress(scanner.nextLine().trim());
+
+                List<PatientEntity> patientEntities = patientEntityControllerRemote.retrieveAllPatients();
+                newPatient.setPatientId((long) patientEntities.size() + 1);
+
+                patientEntityControllerRemote.createNewPatient(newPatient);
+                System.out.println("You has been registered successfully!\n");
+                break;
+
             }
-        }        
+        }
     }
-    
+
     private void menuMain() throws ParseException {
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
-        
-        while(true)
-        {
-            System.out.println("*** Self-Service Kiosk :: Main ***\n");    
+
+        while (true) {
+            System.out.println("*** Self-Service Kiosk :: Main ***\n");
             System.out.println("You are login as " + currentPatientEntity.getFirstName() + " " + currentPatientEntity.getLastName() + "\n");
             System.out.println("1: Register Walk-In Consultation");
             System.out.println("2: Register Consultation By Appointment");
@@ -175,28 +170,29 @@ public class MainApp {
             System.out.println("5: Cancel Appointment");
             System.out.println("6: Logout\n");
             response = 0;
-            
-            while(response < 1 || response > 6) {
+
+            while (response < 1 || response > 6) {
                 System.out.print("> ");
 
                 response = scanner.nextInt();
 
-                if(response == 1) { //Register Walk-In Consultation
+                if (response == 1) { //Register Walk-In Consultation
                     registrationModule.walkIn();
-                } else if(response == 2) { //Register Consultation By Appointment
+                } else if (response == 2) { //Register Consultation By Appointment
                     registrationModule.consultApp();
-                } else if(response == 3) { //View Appointments
+                } else if (response == 3) { //View Appointments
                     appointmentModule.viewApp();
-                } else if(response == 4) { //Add appointment
+                } else if (response == 4) { //Add appointment
                     appointmentModule.registerApp(currentPatientEntity);
-                } else if(response == 5) { //cancel appointemnt
-                   appointmentModule.cancelApp(currentPatientEntity);
-                } else if(response == 6) { // Logout
+                } else if (response == 5) { //cancel appointemnt
+                    appointmentModule.cancelApp(currentPatientEntity);
+                } else if (response == 6) { // Logout
                     break;
                 } else {
-                    System.out.println("Invalid option, please try again!\n");                
+                    System.out.println("Invalid option, please try again!\n");
                 }
-            } if(response == 6) {
+            }
+            if (response == 6) {
                 break;
             }
         }

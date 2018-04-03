@@ -6,7 +6,6 @@
  * - Nurul Afiqah Binte Rashid , A0160361R
  * 
  */
-
 package ejb.session.stateless;
 
 import entity.PatientEntity;
@@ -31,79 +30,58 @@ public class PatientEntityController implements PatientEntityControllerLocal, Pa
     @PersistenceContext(unitName = "ClinicAppointmentRegistrationSystem-ejbPU")
     private EntityManager entityManager;
 
-    
-    
     public PatientEntityController() {
     }
 
-    
     @Override
-    public PatientEntity createNewPatient(PatientEntity newPatientEntity)
-    {
+    public PatientEntity createNewPatient(PatientEntity newPatientEntity) {
         entityManager.persist(newPatientEntity);
         entityManager.flush();
-        
+
         return newPatientEntity;
     }
-    
+
     @Override
-    public PatientEntity patientLogin(String identityNumber, String securityCode) throws InvalidLoginException
-    {
-        try
-        {
+    public PatientEntity patientLogin(String identityNumber, String securityCode) throws InvalidLoginException {
+        try {
             PatientEntity patientEntity = retrievePatientByIdentityNumber(identityNumber);
-            
-            if(patientEntity.getSecurityCode().equals(securityCode))
-            {
+
+            if (patientEntity.getSecurityCode().equals(securityCode)) {
                 return patientEntity;
-            }
-            else
-            {
+            } else {
                 throw new InvalidLoginException("Identity number does not exist or invalid security code!");
             }
-        }
-        catch(PatientNotFoundException ex)
-        {
+        } catch (PatientNotFoundException ex) {
             throw new InvalidLoginException("Identity number does not exist or invalid security code!");
         }
     }
-    
+
     @Override
-    public List<PatientEntity> retrieveAllPatients()
-    {
+    public List<PatientEntity> retrieveAllPatients() {
         Query query = entityManager.createQuery("SELECT p FROM PatientEntity p");
-        
+
         return query.getResultList();
     }
-    
-    
+
     @Override
-    public PatientEntity retrievePatientByIdentityNumber(String identityNumber) throws PatientNotFoundException
-    {
+    public PatientEntity retrievePatientByIdentityNumber(String identityNumber) throws PatientNotFoundException {
         Query query = entityManager.createQuery("SELECT p FROM PatientEntity p WHERE p.identityNumber = :inIdentitynumber");
         query.setParameter("inIdentitynumber", identityNumber);
-        
-        try
-        {
-            return (PatientEntity)query.getSingleResult();
-        }
-        catch(NoResultException | NonUniqueResultException ex)
-        {
+
+        try {
+            return (PatientEntity) query.getSingleResult();
+        } catch (NoResultException | NonUniqueResultException ex) {
             throw new PatientNotFoundException("Patient Identity Number " + identityNumber + " does not exist!");
         }
     }
-    
+
     @Override
-    public void updatePatient(PatientEntity patientEntity)
-    {
+    public void updatePatient(PatientEntity patientEntity) {
         entityManager.merge(patientEntity);
     }
-    
-    
-    
+
     @Override
-    public void deletePatient(String identityNumber) throws PatientNotFoundException
-    {
+    public void deletePatient(String identityNumber) throws PatientNotFoundException {
         PatientEntity patientEntityToRemove = retrievePatientByIdentityNumber(identityNumber);
         entityManager.remove(patientEntityToRemove);
     }

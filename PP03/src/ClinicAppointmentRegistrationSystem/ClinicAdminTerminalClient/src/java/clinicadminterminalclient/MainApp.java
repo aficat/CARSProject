@@ -38,8 +38,8 @@ public class MainApp {
     public MainApp() {
     }
 
-    MainApp(StaffEntityControllerRemote staffEntityControllerRemote, DoctorEntityControllerRemote doctorEntityControllerRemote, PatientEntityControllerRemote patientEntityControllerRemote, RegistrationControllerRemote registrationControllerRemote, ConsultationEntityControllerRemote consultationEntityControllerRemote, AppointmentEntityControllerRemote appointmentEntityControllerRemote){ 
-        this.staffEntityControllerRemote = staffEntityControllerRemote;    
+    MainApp(StaffEntityControllerRemote staffEntityControllerRemote, DoctorEntityControllerRemote doctorEntityControllerRemote, PatientEntityControllerRemote patientEntityControllerRemote, RegistrationControllerRemote registrationControllerRemote, ConsultationEntityControllerRemote consultationEntityControllerRemote, AppointmentEntityControllerRemote appointmentEntityControllerRemote) {
+        this.staffEntityControllerRemote = staffEntityControllerRemote;
         this.doctorEntityControllerRemote = doctorEntityControllerRemote;
         this.patientEntityControllerRemote = patientEntityControllerRemote;
         this.registrationControllerRemote = registrationControllerRemote;
@@ -71,8 +71,7 @@ public class MainApp {
                         appointmentModule = new AppointmentModule(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote, appointmentEntityControllerRemote);
                         administrationModule = new AdministrationModule(staffEntityControllerRemote, doctorEntityControllerRemote, patientEntityControllerRemote, registrationControllerRemote);
                         menuMain();
-                    } 
-                    catch (InvalidLoginException ex) {
+                    } catch (InvalidLoginException ex) {
                     }
                 } else if (response == 2) {
                     break;
@@ -108,43 +107,42 @@ public class MainApp {
                 throw new InvalidLoginException();
 
             }
-        }
-         else
-        {
+        } else {
             System.out.println("Invalid login!");
         }
     }
+
     private void menuMain() throws ParseException, AppointmentNotFoundException {
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
-        
-        while(true)
-        {
-                System.out.println("*** CARS :: Main ***\n");    
+
+        while (true) {
+            System.out.println("*** CARS :: Main ***\n");
             System.out.println("You are login as " + currentStaffEntity.getFirstName() + " " + currentStaffEntity.getLastName() + "\n");
             System.out.println("1: Registration Operation");
             System.out.println("2: Appointment Operation");
             System.out.println("3: Administration Operation");
             System.out.println("4: Logout\n");
             response = 0;
-            
-            while(response < 1 || response > 4) {
+
+            while (response < 1 || response > 4) {
                 System.out.print("> ");
 
                 response = scanner.nextInt();
 
-                if(response == 1) {
+                if (response == 1) {
                     registrationModule.menuRegistration();
-                } else if(response == 2) {
+                } else if (response == 2) {
                     appointmentModule.menuAppointment();
-                } else if(response == 3) {
+                } else if (response == 3) {
                     administrationModule.menuAdministration();
-                } else if(response == 4) {
+                } else if (response == 4) {
                     break;
                 } else {
-                    System.out.println("Invalid option, please try again!\n");                
+                    System.out.println("Invalid option, please try again!\n");
                 }
-            } if(response == 4) {
+            }
+            if (response == 4) {
                 break;
             }
         }

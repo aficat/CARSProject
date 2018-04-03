@@ -91,9 +91,9 @@
 <xs:sequence>
 <xs:element name="identityNumber" type="xs:string" minOccurs="0"/>
 <xs:element name="securityCode" type="xs:string" minOccurs="0"/>
-<xs:element name="inputTime" type="xs:string" minOccurs="0"/>
-<xs:element name="inputDate" type="xs:string" minOccurs="0"/>
 <xs:element name="doctorId" type="xs:long"/>
+<xs:element name="inputDate" type="xs:string" minOccurs="0"/>
+<xs:element name="inputTime" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -112,17 +112,6 @@
 </xs:complexType>
 
 <xs:complexType name="cancelAppointmentResponse">
-<xs:sequence/>
-</xs:complexType>
-
-<xs:complexType name="doLogin">
-<xs:sequence>
-<xs:element name="identityNumber" type="xs:string" minOccurs="0"/>
-<xs:element name="securityCode" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="doLoginResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:string" minOccurs="0"/>
 </xs:sequence>
@@ -142,6 +131,19 @@
 </xs:complexType>
 
 <xs:complexType name="registerPatientResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="doLogin">
+<xs:sequence>
+<xs:element name="identityNumber" type="xs:string" minOccurs="0"/>
+<xs:element name="securityCode" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="doLoginResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:string" minOccurs="0"/>
 </xs:sequence>

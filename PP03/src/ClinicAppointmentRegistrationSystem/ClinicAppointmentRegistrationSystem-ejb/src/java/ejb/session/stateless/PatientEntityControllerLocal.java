@@ -16,15 +16,15 @@ import util.exception.PatientNotFoundException;
 public interface PatientEntityControllerLocal {
 
     PatientEntity createNewPatient(PatientEntity newPatientEntity);
-    
+
     PatientEntity patientLogin(String identityNumber, String securityCode) throws InvalidLoginException;
 
     List<PatientEntity> retrieveAllPatients();
-    
+
     PatientEntity retrievePatientByIdentityNumber(String identityNumber) throws PatientNotFoundException;
-    
+
     void updatePatient(PatientEntity patientEntity);
-    
+
     void deletePatient(String identityNumber) throws PatientNotFoundException;
 
 }
