@@ -22,8 +22,8 @@ Refer to `Documentation.docx` in `PP03` folder for detailed instructions for det
 
 ### Project Screenshots
 
-![HighLevelArchitecture](PP03/img/High Level Architecture.JPG)
+![HighLevelArchitecture](https://github.com/aficat/CARSProject/blob/master/PP03/img/High%20Level%20Architecture.JPG?raw=true)
 
-![OperationsOverview](PP03/img/Operations Overview.JPG)
+![OperationsOverview](https://github.com/aficat/CARSProject/blob/master/PP03/img/Operations%20Overview.JPG?raw=true)
 
-![EntityClasses](PP03/img/Entity Classes.png)
+![EntityClasses](PP03/img/Entity%20Classes.png?raw=true)
