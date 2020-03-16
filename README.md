@@ -20,10 +20,11 @@ Database name = `clinicappointmentregistrationsystem`
 
 Refer to `Documentation.docx` in `PP03` folder for detailed instructions for detailed deployment and user guide.
 
-### Project Screenshots
 
-![HighLevelArchitecture](https://github.com/aficat/CARSProject/blob/master/PP03/img/High%20Level%20Architecture.JPG?raw=true)
+![HighLevelArchitecture](PP03/img/High%20Level%20Architecture.JPG?raw=true)
 
-![OperationsOverview](https://github.com/aficat/CARSProject/blob/master/PP03/img/Operations%20Overview.JPG?raw=true)
+![OperationsOverview](PP03/img/Operations%20Overview.JPG?raw=true)
+
+### Entities and Classes
 
 ![EntityClasses](PP03/img/Entity%20Classes.png?raw=true)
