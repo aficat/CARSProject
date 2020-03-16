@@ -12,14 +12,25 @@ It helps to create and schedule appointments between patients and doctors. There
 
 ## Setup Guide
 
-1. Create database in MySQL.
+1. Open Git Bash/ Command Prompt/ Terminal. Clone repository.
+
+```
+git clone https://github.com/aficat/CARSProject.git 
+```
+2. Navigate to project folder
+
+```
+cd CARSProject
+```
+3. Create database in MySQL.
 
 Database name = `clinicappointmentregistrationsystem`
 
-2. Run `ClinicAppointmentRegistrationSystem` in NetBeans.
+4. Run `ClinicAppointmentRegistrationSystem` in NetBeans.
+
+## Documentation
 
 Refer to `Documentation.docx` in `PP03` folder for detailed instructions for detailed deployment and user guide.
-
 
 ![HighLevelArchitecture](PP03/img/High%20Level%20Architecture.JPG?raw=true)
 
